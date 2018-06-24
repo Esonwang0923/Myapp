@@ -29,6 +29,9 @@
         <activity
             android:name=".ScrollingActivity"
             android:label="@string/title_activity_scrolling" />
+        <activity
+            android:name=".FmainActivity"
+            android:label="@string/title_activity_fmain" />
     </application>
 
 </manifest>

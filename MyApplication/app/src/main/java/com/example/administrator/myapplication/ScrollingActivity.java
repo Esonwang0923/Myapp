@@ -35,7 +35,6 @@ public class ScrollingActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scrolling);
-
         //textview 控件
         textviewcontent = (WebView) findViewById(R.id.detailTextView);
         //新页面接收数据

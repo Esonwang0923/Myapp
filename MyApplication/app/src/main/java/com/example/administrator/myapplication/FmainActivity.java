@@ -67,6 +67,7 @@ public class FmainActivity extends AppCompatActivity implements ViewAnimator.Vie
         setActionBar();
         createMenuList();
         viewAnimator = new ViewAnimator<>(this, list, contentFragment, drawerLayout, this);
+
     }
 
     private void createMenuList() {

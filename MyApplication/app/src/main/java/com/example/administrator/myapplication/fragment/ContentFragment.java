@@ -5,7 +5,10 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -84,6 +87,7 @@ public class ContentFragment extends Fragment implements ScreenShotable {
         super.onCreate(savedInstanceState);
         res = getArguments().getInt(Integer.class.getName());
 
+
     }
 
     @Override
@@ -95,6 +99,42 @@ public class ContentFragment extends Fragment implements ScreenShotable {
 
         if (BOOK.equals(tagName)){
             listview = (ListView) rootView.findViewById(R.id.listviewId);
+            //添加点击事件
+            listview.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+                @Override
+                public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+                    //获得选中项的HashMap对象
+                    Article map= (Article)listview.getItemAtPosition(arg2);
+                    item = map;
+                    //mAdapter.notifyDataSetChanged();
+                    Long articleId = item.getId();
+                    Long userArticleId = item.getUserArticleId();
+                    try {
+                        String result= ServiceUtil.getServiceInfo(Constants.ArticleById+articleId,Constants.ip,Constants.port);
+                        JSONObject jsonObject = new JSONObject(result);
+                        String title = jsonObject.getString("title");
+                        String detail = jsonObject.getString("detail");
+
+                        Intent i = new Intent(getActivity(), ScrollingActivity.class);
+
+                        //用Bundle携带数据
+                        Bundle bundle=new Bundle();
+                        //传递name参数为tinyphp
+                        bundle.putString("content", detail);
+                        bundle.putLong("id", articleId);
+                        bundle.putLong("userArticleId", userArticleId);
+                        bundle.putString("title", title);
+                        i.putExtras(bundle);
+                        startActivity(i);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+
+            });
+
+
             getData();//填充数据
             //设定列表项的选择模式为单选
             listview.setChoiceMode(ListView.CHOICE_MODE_SINGLE);

@@ -27,6 +27,9 @@ import com.example.administrator.myapplication.ServiceUtil;
 import com.example.administrator.myapplication.adapter.MyAdapter;
 import com.example.administrator.myapplication.commom.Constants;
 import com.example.administrator.myapplication.dao.Article;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -87,7 +90,6 @@ public class ContentFragment extends Fragment implements ScreenShotable {
         super.onCreate(savedInstanceState);
         res = getArguments().getInt(Integer.class.getName());
 
-
     }
 
     @Override
@@ -134,13 +136,30 @@ public class ContentFragment extends Fragment implements ScreenShotable {
 
             });
 
-
             getData();//填充数据
             //设定列表项的选择模式为单选
             listview.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
             //为数据绑定适配器
             mAdapter = new MyAdapter(this.getActivity(),data);
             listview.setAdapter(mAdapter);
+
+            //下拉刷新作用
+            RefreshLayout refreshLayout = (RefreshLayout)rootView.findViewById(R.id.refreshLayout);
+            refreshLayout.setOnRefreshListener(new OnRefreshListener() {
+                @Override
+                public void onRefresh(RefreshLayout refreshlayout) {
+                    refreshlayout.finishRefresh(1200);
+                    getData();
+                    mAdapter.refresh(data);
+                }
+            });
+            refreshLayout.setOnLoadmoreListener(new OnLoadmoreListener() {
+                @Override
+                public void onLoadmore(RefreshLayout refreshlayout) {
+                    refreshlayout.finishLoadmore(1200);
+                }
+            });
+
 
         }else{
             mImageView = (ImageView) rootView.findViewById(R.id.image_content);

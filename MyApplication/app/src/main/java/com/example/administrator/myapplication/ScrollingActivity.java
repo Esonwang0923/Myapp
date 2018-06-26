@@ -45,6 +45,10 @@ public class ScrollingActivity extends Activity {
         id = bundle.getLong("id");
         userArticleId = bundle.getLong("userArticleId");
 
+        textviewcontent.setBackgroundColor(0); // 设置背景色
+        textviewcontent.getBackground().setAlpha(0); // 设置填充透明度 范围：0-255
+        textviewcontent.setBackgroundResource(R.drawable.action_detail);
+
         textviewcontent.getSettings().setDefaultTextEncodingName("UTF -8");//设置默认为utf-8
         textviewcontent.loadData(content, "text/html; charset=UTF-8", null);//这种写法可以正确解码
 
@@ -53,9 +57,6 @@ public class ScrollingActivity extends Activity {
         //支持缩放
         textviewcontent.getSettings().setSupportZoom(true);
         textviewcontent.getSettings().setMinimumFontSize(20);
-        //自动适应屏幕
-        //textviewcontent.getSettings().setLoadWithOverviewMode(true);
-        //textviewcontent.getSettings().setUseWideViewPort(true);
 
 
         textviewcontent.setOnTouchListener(new View.OnTouchListener() {

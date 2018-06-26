@@ -10,7 +10,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.administrator.myapplication.R;
@@ -69,12 +68,12 @@ public class MyAdapter extends BaseAdapter {
         Article bean = mDatas.get(position);
         holder.titleTv.setText(bean.getTitle());
         //holder.descTv.setText(String.valueOf(bean.getId()));
-        Drawable drawable= convertView.getResources().getDrawable(R.drawable.heart_25);
+        Drawable drawable= convertView.getResources().getDrawable(R.drawable.action_unfinish);
         drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
         holder.phoneTv.setCompoundDrawables(drawable,null,null,null);
         String read =  bean.getNodes();
         if("1".equals(read)){
-            drawable= convertView.getResources().getDrawable(R.drawable.heart_24);
+            drawable= convertView.getResources().getDrawable(R.drawable.action_finish);
             drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
             holder.phoneTv.setCompoundDrawables(drawable,null,null,null);
         }

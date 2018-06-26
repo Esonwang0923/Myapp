@@ -13,7 +13,8 @@
         android:paddingLeft="0dp"
         android:text="Android新技能oid新技能oid新技能oid新技能oid新技能oid新技能oid新技能oid新技能"
         android:textColor="#444"
-        android:textSize="16sp" />
+        android:typeface="sans"
+        android:textSize="18sp" />
 
 
     <LinearLayout
@@ -43,7 +44,7 @@
             android:layout_below="@+id/descTv"
             android:layout_gravity="right"
             android:layout_marginTop="2dp"
-            android:drawableLeft="@drawable/heart_25"
+            android:drawableLeft="@drawable/action_unfinish"
             android:textSize="16sp" />
     </LinearLayout>
 

@@ -5,6 +5,7 @@ import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -177,15 +178,19 @@ public class FmainActivity extends AppCompatActivity implements ViewAnimator.Vie
 
         findViewById(R.id.content_overlay).setBackgroundDrawable(new BitmapDrawable(getResources(), screenShotable.getBitmap()));
         animator.start();
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         if("Book".equals(name)){
             contentFragment = ContentFragment.newInstance(this.res,userId,name);
-            getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, contentFragment).commit();
+            transaction.replace(R.id.content_frame, contentFragment);
 
         }else{
             detailFragment = DetailFragment.newInstance(this.res,userId,name);
-            getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, detailFragment).commit();
+            transaction.replace(R.id.content_frame, detailFragment);
 
         }
+
+        transaction.addToBackStack(null);
+        transaction.commit();
         return contentFragment;
 
     }

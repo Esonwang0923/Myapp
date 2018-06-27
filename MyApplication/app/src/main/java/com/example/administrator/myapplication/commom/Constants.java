@@ -9,12 +9,23 @@ public class Constants {
     public static String ArticleById ="http://"+ip+":"+port+"/article/getArticle/";
     //根据用户id获取文章列表
     public static String findAllByuserId ="http://"+ip+":"+port+"/article/findAllByuserId/";
+
     //删除文章
     public static String deleteUserArticle= "http://"+ip+":"+port+"/article/deleteUserArticle/";
     //设置已读
     public static String modifyRead= "http://"+ip+":"+port+"/article/modifyRead/";
     //登录校验
     public static String UserByCountAndPassword ="http://"+ip+":"+port+"/users/getUserByCountAndPassword";
+
+
+    //根据用户id获取notes列表
+    public static String findNotesByUserId ="http://"+ip+":"+port+"/notes/findNotesByUserId/";
+
+    //新增notes列表
+    public static String addNotes ="http://"+ip+":"+port+"/notes/addNotes";
+
+    //modifynotes列表
+    public static String updateNote ="http://"+ip+":"+port+"/notes/updateNote";
 
 
 }

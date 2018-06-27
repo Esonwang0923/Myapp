@@ -1,5 +1,6 @@
 package com.example.administrator.myapplication;
 
+import android.app.Fragment;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
@@ -11,9 +12,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.view.animation.AccelerateInterpolator;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,15 +35,18 @@ public class FmainActivity extends AppCompatActivity implements ViewAnimator.Vie
     private ActionBarDrawerToggle drawerToggle;
     private List<SlideMenuItem> list = new ArrayList<>();
     private ContentFragment contentFragment;
+    private DetailFragment detailFragment;
     private ViewAnimator viewAnimator;
     private int res = R.drawable.content_music;
     private LinearLayout linearLayout;
     private String userId;
+    private Boolean isTrue =true;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
 
         //新页面接收数据
         Bundle bundle = this.getIntent().getExtras();
@@ -50,10 +54,15 @@ public class FmainActivity extends AppCompatActivity implements ViewAnimator.Vie
         userId = bundle.getString("userId");
 
         setContentView(R.layout.activity_fmain);
-        contentFragment = ContentFragment.newInstance(R.drawable.content_music,userId,null);
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.content_frame, contentFragment)
-                .commit();
+
+        if(savedInstanceState == null) {
+            contentFragment = ContentFragment.newInstance(R.drawable.content_music,userId,null);
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.content_frame, contentFragment)
+                    .commit();
+        }
+
+
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawerLayout.setScrimColor(Color.TRANSPARENT);
         linearLayout = (LinearLayout) findViewById(R.id.left_drawer);
@@ -168,9 +177,17 @@ public class FmainActivity extends AppCompatActivity implements ViewAnimator.Vie
 
         findViewById(R.id.content_overlay).setBackgroundDrawable(new BitmapDrawable(getResources(), screenShotable.getBitmap()));
         animator.start();
-        ContentFragment contentFragment = ContentFragment.newInstance(this.res,userId,name);
-        getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, contentFragment).commit();
+        if("Book".equals(name)){
+            contentFragment = ContentFragment.newInstance(this.res,userId,name);
+            getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, contentFragment).commit();
+
+        }else{
+            detailFragment = DetailFragment.newInstance(this.res,userId,name);
+            getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, detailFragment).commit();
+
+        }
         return contentFragment;
+
     }
 
     @Override

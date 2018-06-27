@@ -1,108 +1,300 @@
 package com.example.administrator.myapplication;
 
+import android.app.AlertDialog;
 import android.content.Context;
-import android.net.Uri;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.os.Bundle;
-import android.app.Fragment;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.SimpleAdapter;
+import android.widget.TextView;
+import android.widget.AbsListView;
+import android.widget.AbsListView.OnScrollListener;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemLongClickListener;
+import com.example.administrator.myapplication.commom.Constants;
+import com.example.administrator.myapplication.dao.Notes;
+import com.google.gson.Gson;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import yalantis.com.sidemenu.interfaces.ScreenShotable;
 
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link DetailFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
  * Use the {@link DetailFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class DetailFragment extends Fragment {
+public class DetailFragment extends Fragment implements ScreenShotable, OnScrollListener,
+        OnItemClickListener, OnItemLongClickListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
     // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    protected ImageView mImageView;
 
-    private OnFragmentInteractionListener mListener;
+    private static String userID;
+    private static String tagName;
+    private View containerView;
+    private Bitmap bitmap;
+    protected int res;
 
-    public DetailFragment() {
-        // Required empty public constructor
-    }
+    private Context mContext;
+    private ListView listview;
+    private SimpleAdapter simp_adapter;
+    private List<Map<String, Object>> dataList;
+    private Button addNote;
+    private TextView tv_content;
+    private Gson gson;
+
 
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
      * @return A new instance of fragment DetailFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static DetailFragment newInstance(String param1, String param2) {
-        DetailFragment fragment = new DetailFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
+    public static DetailFragment newInstance(int resId, String userId, String name) {
+        userID = userId;
+        tagName = name;
+        DetailFragment contentFragment = new DetailFragment();
+        Bundle bundle = new Bundle();
+        bundle.putInt(Integer.class.getName(), resId);
+        bundle.putString("userId",userId);
+        contentFragment.setArguments(bundle);
+        return contentFragment;
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        this.containerView = view.findViewById(R.id.container_detail);
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View rootView = inflater.inflate(R.layout.fragment_detail, container, false);
+        //setContentView(R.layout.fragment_detail);
+        tv_content = (TextView) rootView.findViewById(R.id.tv_content);
+        listview = (ListView) rootView.findViewById(R.id.detaillistview);
+        dataList = new ArrayList<>();
+
+        addNote = (Button) rootView.findViewById(R.id.btn_editnote);
+//        mImageView = (ImageView) rootView.findViewById(R.id.image_detailcontent);
+//        mImageView.setClickable(true);
+//        mImageView.setFocusable(true);
+//        mImageView.setImageResource(res);
+        mContext = getContext();
+        addNote.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View arg0) {
+                noteEdit.ENTER_STATE = 0;
+                Intent intent = new Intent(mContext, noteEdit.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("info", "");
+                bundle.putString("userId", userID);
+                intent.putExtras(bundle);
+                startActivityForResult(intent, 1);
+            }
+        });
+
+        RefreshNotesList();
+        listview.setOnItemClickListener(this);
+        listview.setOnItemLongClickListener(this);
+        listview.setOnScrollListener(this);
+
+        return rootView;
+
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            res = getArguments().getInt(Integer.class.getName());
         }
+    }
+    public void RefreshNotesList() {
+
+        int size = dataList.size();
+        if (size > 0) {
+            dataList.removeAll(dataList);
+            simp_adapter.notifyDataSetChanged();
+            listview.setAdapter(simp_adapter);
+        }
+        simp_adapter = new SimpleAdapter(getContext(), getData(), R.layout.fragment_edititem, new String[] { "tv_content", "tv_date" }, new int[] {R.id.tv_content, R.id.tv_date });
+        listview.setAdapter(simp_adapter);
+    }
+
+    private List<Map<String, Object>> getData() {
+
+        try {
+            String result= ServiceUtil.getServiceInfo(Constants.findNotesByUserId+Long.valueOf(userID),Constants.ip,Constants.port);
+            JSONArray jsonArray = new JSONArray(result);
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                String note = jsonObject.getString("note").replace("\r\n","").replace("\t","").trim();
+                String content = jsonObject.getString("content").replace("\r\n","").replace("\t","").trim();
+                long userId = Long.valueOf(jsonObject.getString("userId"));
+                long id = Long.valueOf(jsonObject.getString("id"));
+                Date date = Date.valueOf(jsonObject.getString("date"));
+                Map<String,Object> notes = new HashMap<>();
+                notes.put("tv_content",note);
+                notes.put("tv_date",date);
+
+                notes.put("id",id);
+                notes.put("userId",userId);
+                notes.put("content",content);
+                notes.put("note",note);
+
+                dataList.add(notes);
+            }
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return dataList;
+
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_detail, container, false);
+    public void onScroll(AbsListView arg0, int arg1, int arg2, int arg3) {
+        // TODO Auto-generated method stub
+
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
+    // 滑动listview监听事件
+    @Override
+    public void onScrollStateChanged(AbsListView arg0, int arg1) {
+        // TODO Auto-generated method stub
+        switch (arg1) {
+            case SCROLL_STATE_FLING:
+                Log.i("main", "用户在手指离开屏幕之前，由于用力的滑了一下，视图能依靠惯性继续滑动");
+            case SCROLL_STATE_IDLE:
+                Log.i("main", "视图已经停止滑动");
+            case SCROLL_STATE_TOUCH_SCROLL:
+                Log.i("main", "手指没有离开屏幕，试图正在滑动");
         }
     }
 
+    // 点击listview中某一项的监听事件
     @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
+    public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+        noteEdit.ENTER_STATE = 1;
+        // Log.d("arg2", arg2 + "");
+        // TextView
+        // content=(TextView)listview.getChildAt(arg2).findViewById(R.id.tv_content);
+        // String content1=content.toString();
+        String content = listview.getItemAtPosition(arg2) + "";
+        gson = new Gson().newBuilder().create();
+        Notes notes = gson.fromJson(content, Notes.class);
+        Log.d("CONTENT", notes.getContent());
+
+        // Intent intent = new Intent(mContext, noteEdit.class);
+        // intent.putExtra("data", text);
+        // setResult(4, intent);
+        // // intent.putExtra("data",text);
+        // startActivityForResult(intent, 3);
+        Intent myIntent = new Intent();
+        Bundle bundle = new Bundle();
+        bundle.putString("info",  notes.getContent());
+        bundle.putString("userId", userID);
+
+        noteEdit.id = (int) notes.getId();
+        myIntent.putExtras(bundle);
+        myIntent.setClass(getActivity(), noteEdit.class);
+        startActivityForResult(myIntent, 1);
+
+
+    }
+
+    @Override
+    // 接受上一个页面返回的数据，并刷新页面
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // TODO Auto-generated method stub
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1 && resultCode == 2) {
+            RefreshNotesList();
         }
     }
 
+    // 点击listview中某一项长时间的点击事件
     @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
+    public boolean onItemLongClick(AdapterView<?> arg0, View arg1, int arg2,
+                                   long arg3) {
+        final int n=arg2;
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setTitle("删除该日志");
+        builder.setMessage("确认删除吗？");
+        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String content = listview.getItemAtPosition(n) + "";
+                String content1 = content.substring(content.indexOf("=") + 1,
+                        content.indexOf(","));
+
+//                while (c.moveToNext()) {
+//                    String id = c.getString(c.getColumnIndex("_id"));
+//                    String sql_del = "update note set content='' where _id="
+//                            + id;
+//                    //dbread.execSQL(sql_del);
+//                    RefreshNotesList();
+//                }
+            }
+        });
+        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+            }
+        });
+        builder.create();
+        builder.show();
+        return true;
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
+
+    @Override
+    public void takeScreenShot() {
+        Thread thread = new Thread() {
+            @Override
+            public void run() {
+                Bitmap bitmap = Bitmap.createBitmap(containerView.getWidth(),
+                        containerView.getHeight(), Bitmap.Config.ARGB_8888);
+                Canvas canvas = new Canvas(bitmap);
+                containerView.draw(canvas);
+                DetailFragment.this.bitmap = bitmap;
+            }
+        };
+
+        thread.start();
+
+    }
+
+    @Override
+    public Bitmap getBitmap() {
+        return bitmap;
     }
 }

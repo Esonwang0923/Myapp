@@ -127,4 +127,5 @@
         <item>军事</item>
         <item>游戏</item>
     </string-array>
+    <string name="title_activity_note_edit">noteEdit</string>
 </resources>

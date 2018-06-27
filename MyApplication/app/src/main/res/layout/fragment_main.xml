@@ -1,50 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<io.codetail.widget.RevealFrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/containerr"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <FrameLayout
-        android:id="@+id/container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/refreshLayout"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        tools:context=".MainActivity">
 
-        <com.scwang.smartrefresh.layout.SmartRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            xmlns:tools="http://schemas.android.com/tools"
-            android:id="@+id/refreshLayout"
+        <pl.droidsonroids.gif.GifImageView
+            android:layout_width="match_parent"
+            android:layout_height="136dp"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/gif_header_repast1" />
+
+        <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            tools:context=".MainActivity">
+            android:orientation="vertical"
+            android:paddingTop="?attr/actionBarSize">
 
-            <pl.droidsonroids.gif.GifImageView
+            <ListView
+                android:id="@+id/listviewId"
                 android:layout_width="match_parent"
-                android:layout_height="136dp"
-                android:scaleType="centerCrop"
-                android:src="@mipmap/gif_header_repast1" />
+                android:layout_height="match_parent"
+                android:cacheColorHint="#000000"
+                android:dividerHeight="1dp"
+                android:listSelector="@color/holo_orange_light2" />
+        </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:orientation="vertical"
-                android:paddingTop="?attr/actionBarSize">
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
-                <ListView
-                    android:id="@+id/listviewId"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:cacheColorHint="#000000"
-                    android:dividerHeight="1dp"
-                    android:listSelector="@color/holo_orange_light2" />
-            </LinearLayout>
+    <ImageView
+        android:scaleType="fitXY"
+        android:id="@+id/image_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 
-        </com.scwang.smartrefresh.layout.SmartRefreshLayout>
-
-        <ImageView
-            android:scaleType="fitXY"
-            android:id="@+id/image_content"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
-
-    </FrameLayout>
-</io.codetail.widget.RevealFrameLayout>
+</FrameLayout>

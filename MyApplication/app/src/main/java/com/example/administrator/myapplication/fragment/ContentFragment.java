@@ -5,10 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,10 +14,6 @@ import android.widget.ImageView;
 import android.widget.ListView;
 
 import yalantis.com.sidemenu.interfaces.ScreenShotable;
-
-import com.example.administrator.myapplication.FmainActivity;
-import com.example.administrator.myapplication.LoginActivity;
-import com.example.administrator.myapplication.MainActivity;
 import com.example.administrator.myapplication.R;
 import com.example.administrator.myapplication.ScrollingActivity;
 import com.example.administrator.myapplication.ServiceUtil;
@@ -30,7 +23,6 @@ import com.example.administrator.myapplication.dao.Article;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -63,8 +55,6 @@ public class ContentFragment extends Fragment implements ScreenShotable {
     private static String tagName;
     private List<Article> data;
     private Article item;
-    private boolean DEV_MODE = false;
-
 
 
     public static ContentFragment newInstance(int resId,String userId,String name) {
@@ -82,7 +72,7 @@ public class ContentFragment extends Fragment implements ScreenShotable {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        this.containerView = view.findViewById(R.id.container);
+        this.containerView = view.findViewById(R.id.containerr);
     }
 
     @Override
@@ -100,7 +90,13 @@ public class ContentFragment extends Fragment implements ScreenShotable {
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
 
         if (BOOK.equals(tagName)){
+            getData();//填充数据
             listview = (ListView) rootView.findViewById(R.id.listviewId);
+            //设定列表项的选择模式为单选
+            listview.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+            //为数据绑定适配器
+            mAdapter = new MyAdapter(this.getActivity(),data);
+            listview.setAdapter(mAdapter);
             //添加点击事件
             listview.setOnItemClickListener(new AdapterView.OnItemClickListener(){
                 @Override
@@ -136,12 +132,6 @@ public class ContentFragment extends Fragment implements ScreenShotable {
 
             });
 
-            getData();//填充数据
-            //设定列表项的选择模式为单选
-            listview.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
-            //为数据绑定适配器
-            mAdapter = new MyAdapter(this.getActivity(),data);
-            listview.setAdapter(mAdapter);
 
             //下拉刷新作用
             RefreshLayout refreshLayout = (RefreshLayout)rootView.findViewById(R.id.refreshLayout);
@@ -218,5 +208,7 @@ public class ContentFragment extends Fragment implements ScreenShotable {
     public Bitmap getBitmap() {
         return bitmap;
     }
+
+
 }
 

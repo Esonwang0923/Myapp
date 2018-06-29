@@ -7,12 +7,6 @@
     android:id="@+id/container_detail">
 
     <!-- TODO: Update blank fragment layout -->
-    <ImageView
-        android:scaleType="fitXY"
-        android:id="@+id/image_detailcontent"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
-
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
@@ -25,7 +19,7 @@
             android:textSize="20sp"
             android:paddingTop="10dp"
             android:paddingBottom="5dp"
-            android:background="#039DCF"
+            android:background="@color/qmui_config_color_transparent"
             android:gravity="center"/>
 
         <LinearLayout
@@ -36,11 +30,10 @@
             <ListView
                 android:id="@+id/detaillistview"
                 android:layout_margin="5dp"
-                android:background="#81966F"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:dividerHeight="1dp"
-                android:cacheColorHint="#000000">
+                android:cacheColorHint="#00000000">
             </ListView>
         </LinearLayout>
 

@@ -53,7 +53,7 @@ public class MyAdapter extends BaseAdapter {
         ViewHolder holder = null;
         System.out.println("执行"+position);
         if (convertView == null) {
-            convertView = mInflater.inflate(R.layout.item_listview,null); //加载布局
+            convertView = mInflater.inflate(R.layout.fragment_articleitem,null); //加载布局
             holder = new ViewHolder();
 
             holder.titleTv = (TextView) convertView.findViewById(R.id.titleTv);

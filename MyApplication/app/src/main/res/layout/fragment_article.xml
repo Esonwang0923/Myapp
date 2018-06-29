@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/containerr"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:id="@+id/container_article"
+    tools:context=".ArticleFragment">
 
     <com.scwang.smartrefresh.layout.SmartRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -26,7 +27,7 @@
             android:paddingTop="?attr/actionBarSize">
 
             <ListView
-                android:id="@+id/listviewId"
+                android:id="@+id/titleListview"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:cacheColorHint="#000000"
@@ -35,11 +36,4 @@
         </LinearLayout>
 
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>
-
-    <ImageView
-        android:scaleType="fitXY"
-        android:id="@+id/image_content"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
-
 </FrameLayout>

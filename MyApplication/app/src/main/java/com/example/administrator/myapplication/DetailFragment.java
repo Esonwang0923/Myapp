@@ -29,7 +29,6 @@ import com.google.gson.Gson;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -51,8 +50,6 @@ public class DetailFragment extends Fragment implements ScreenShotable, OnScroll
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     // TODO: Rename and change types of parameters
-    protected ImageView mImageView;
-
     private static String userID;
     private static String tagName;
     private View containerView;
@@ -209,7 +206,8 @@ public class DetailFragment extends Fragment implements ScreenShotable, OnScroll
         // content=(TextView)listview.getChildAt(arg2).findViewById(R.id.tv_content);
         // String content1=content.toString();
         String content = listview.getItemAtPosition(arg2) + "";
-        gson = new Gson().newBuilder().create();
+        content = content.replace("\n","");
+        gson = new Gson().newBuilder().setPrettyPrinting().disableHtmlEscaping().create();
         Notes notes = gson.fromJson(content, Notes.class);
         Log.d("CONTENT", notes.getContent());
 

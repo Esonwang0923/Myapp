@@ -1,6 +1,5 @@
 package com.example.administrator.myapplication;
 
-import android.app.Fragment;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
@@ -16,18 +15,13 @@ import android.view.View;
 import android.view.Window;
 import android.view.animation.AccelerateInterpolator;
 import android.widget.LinearLayout;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import io.codetail.animation.SupportAnimator;
 import io.codetail.animation.ViewAnimationUtils;
 import yalantis.com.sidemenu.interfaces.Resourceble;
 import yalantis.com.sidemenu.interfaces.ScreenShotable;
 import yalantis.com.sidemenu.model.SlideMenuItem;
-
-import com.example.administrator.myapplication.adapter.MyAdapter;
-import com.example.administrator.myapplication.fragment.ContentFragment;
 import yalantis.com.sidemenu.util.ViewAnimator;
 
 
@@ -35,8 +29,10 @@ public class FmainActivity extends AppCompatActivity implements ViewAnimator.Vie
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle drawerToggle;
     private List<SlideMenuItem> list = new ArrayList<>();
-    private ContentFragment contentFragment;
+    private ArticleFragment articleFragment;
     private DetailFragment detailFragment;
+    private DefaultFragment defaultFragment;
+
     private ViewAnimator viewAnimator;
     private int res = R.drawable.content_music;
     private LinearLayout linearLayout;
@@ -53,13 +49,11 @@ public class FmainActivity extends AppCompatActivity implements ViewAnimator.Vie
         Bundle bundle = this.getIntent().getExtras();
         //接收content值
         userId = bundle.getString("userId");
-
         setContentView(R.layout.activity_fmain);
-
         if(savedInstanceState == null) {
-            contentFragment = ContentFragment.newInstance(R.drawable.content_music,userId,null);
+            defaultFragment = DefaultFragment.newInstance(R.drawable.content_music,userId,null);
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.content_frame, contentFragment)
+                    .replace(R.id.content_frame, defaultFragment)
                     .commit();
         }
 
@@ -76,7 +70,7 @@ public class FmainActivity extends AppCompatActivity implements ViewAnimator.Vie
 
         setActionBar();
         createMenuList();
-        viewAnimator = new ViewAnimator<>(this, list, contentFragment, drawerLayout, this);
+        viewAnimator = new ViewAnimator<>(this, list, defaultFragment, drawerLayout, this);
 
     }
 
@@ -117,21 +111,21 @@ public class FmainActivity extends AppCompatActivity implements ViewAnimator.Vie
     }
 
     private void createMenuList() {
-        SlideMenuItem menuItem0 = new SlideMenuItem(ContentFragment.CLOSE, R.drawable.icn_close);
+        SlideMenuItem menuItem0 = new SlideMenuItem(ArticleFragment.CLOSE, R.drawable.icn_close);
         list.add(menuItem0);
-        SlideMenuItem menuItem = new SlideMenuItem(ContentFragment.BUILDING, R.drawable.icn_1);
+        SlideMenuItem menuItem = new SlideMenuItem(ArticleFragment.BUILDING, R.drawable.icn_1);
         list.add(menuItem);
-        SlideMenuItem menuItem2 = new SlideMenuItem(ContentFragment.BOOK, R.drawable.icn_2);
+        SlideMenuItem menuItem2 = new SlideMenuItem(ArticleFragment.BOOK, R.drawable.icn_2);
         list.add(menuItem2);
-        SlideMenuItem menuItem3 = new SlideMenuItem(ContentFragment.PAINT, R.drawable.icn_3);
+        SlideMenuItem menuItem3 = new SlideMenuItem(ArticleFragment.PAINT, R.drawable.icn_3);
         list.add(menuItem3);
-        SlideMenuItem menuItem4 = new SlideMenuItem(ContentFragment.CASE, R.drawable.icn_4);
+        SlideMenuItem menuItem4 = new SlideMenuItem(ArticleFragment.CASE, R.drawable.icn_4);
         list.add(menuItem4);
-        SlideMenuItem menuItem5 = new SlideMenuItem(ContentFragment.SHOP, R.drawable.icn_5);
+        SlideMenuItem menuItem5 = new SlideMenuItem(ArticleFragment.SHOP, R.drawable.icn_5);
         list.add(menuItem5);
-        SlideMenuItem menuItem6 = new SlideMenuItem(ContentFragment.PARTY, R.drawable.icn_6);
+        SlideMenuItem menuItem6 = new SlideMenuItem(ArticleFragment.PARTY, R.drawable.icn_6);
         list.add(menuItem6);
-        SlideMenuItem menuItem7 = new SlideMenuItem(ContentFragment.MOVIE, R.drawable.icn_7);
+        SlideMenuItem menuItem7 = new SlideMenuItem(ArticleFragment.MOVIE, R.drawable.icn_7);
         list.add(menuItem7);
     }
 
@@ -178,31 +172,57 @@ public class FmainActivity extends AppCompatActivity implements ViewAnimator.Vie
 
         findViewById(R.id.content_overlay).setBackgroundDrawable(new BitmapDrawable(getResources(), screenShotable.getBitmap()));
         animator.start();
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+
         if("Book".equals(name)){
-            contentFragment = ContentFragment.newInstance(this.res,userId,name);
-            transaction.replace(R.id.content_frame, contentFragment);
+
+            if(articleFragment == null){
+                articleFragment = ArticleFragment.newInstance(this.res,userId,name);
+                transaction.add(R.id.content_frame, articleFragment,"book");
+            }
+            hideFragment(transaction);
+            transaction.show(articleFragment);
+            transaction.commit();
+            return articleFragment;
 
         }else{
-            detailFragment = DetailFragment.newInstance(this.res,userId,name);
-            transaction.replace(R.id.content_frame, detailFragment);
+
+            if(detailFragment == null){
+                detailFragment = DetailFragment.newInstance(this.res,userId,name);
+                transaction.add(R.id.content_frame, detailFragment,"notes");
+            }
+            hideFragment(transaction);
+            transaction.show(detailFragment);
+            transaction.commit();
+            return detailFragment;
 
         }
 
-        transaction.addToBackStack(null);
-        transaction.commit();
-        return contentFragment;
-
     }
 
-    @Override
+
+    //隐藏所有的fragment
+    private void hideFragment(FragmentTransaction transaction) {
+        if (articleFragment != null) {
+            transaction.hide(articleFragment);
+        }
+        if (detailFragment != null) {
+            transaction.hide(detailFragment);
+        }
+//        if (f3 != null) {
+//            transaction.hide(f3);
+//        }
+    }
+
+        @Override
     public ScreenShotable onSwitch(Resourceble slideMenuItem, ScreenShotable screenShotable, int position) {
         String name = slideMenuItem.getName();
 
         switch (slideMenuItem.getName()) {
-            case ContentFragment.CLOSE:
+            case ArticleFragment.CLOSE:
                 return screenShotable;
-            case ContentFragment.BOOK:
+            case ArticleFragment.BOOK:
                 return replaceFragment(screenShotable, position,name);
             default:
                 return replaceFragment(screenShotable, position,name);

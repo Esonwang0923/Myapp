@@ -10,13 +10,12 @@
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:background="@android:color/darker_gray"
         android:orientation="vertical" >
         <TextView
             android:layout_height="wrap_content"
             android:layout_width="fill_parent"
             android:text="记事本列表"
-            android:textSize="20sp"
+            android:textSize="15sp"
             android:paddingTop="10dp"
             android:paddingBottom="5dp"
             android:background="@color/qmui_config_color_transparent"
@@ -32,8 +31,10 @@
                 android:layout_margin="5dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:dividerHeight="1dp"
-                android:cacheColorHint="#00000000">
+                android:dividerHeight="3dp"
+                android:divider="#00000000"
+                android:footerDividersEnabled="false"
+                android:listSelector="@color/holo_orange_light2">
             </ListView>
         </LinearLayout>
 
@@ -41,10 +42,10 @@
             android:id="@+id/btn_editnote"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/qmui_dialog_action_btn_bg"
+            android:background="@drawable/note_add_btnstyle"
             android:layout_gravity="center"
-            android:layout_marginBottom="10dp"
-            android:text="添加备忘录"
+            android:layout_marginBottom="1dp"
+            android:text=""
             android:textSize="20sp" />
 
     </LinearLayout>

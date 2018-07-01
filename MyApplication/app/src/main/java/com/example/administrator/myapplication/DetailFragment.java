@@ -4,8 +4,10 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -15,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
@@ -23,6 +26,8 @@ import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
+import android.widget.Toast;
+
 import com.example.administrator.myapplication.commom.Constants;
 import com.example.administrator.myapplication.dao.Notes;
 import com.google.gson.Gson;
@@ -62,6 +67,7 @@ public class DetailFragment extends Fragment implements ScreenShotable, OnScroll
     private List<Map<String, Object>> dataList;
     private Button addNote;
     private TextView tv_content;
+    private LinearLayout linearLayout;
     private Gson gson;
 
 
@@ -94,6 +100,8 @@ public class DetailFragment extends Fragment implements ScreenShotable, OnScroll
         View rootView = inflater.inflate(R.layout.fragment_detail, container, false);
         //setContentView(R.layout.fragment_detail);
         tv_content = (TextView) rootView.findViewById(R.id.tv_content);
+        linearLayout = (LinearLayout) rootView.findViewById(R.id.content_note_tag);
+
         listview = (ListView) rootView.findViewById(R.id.detaillistview);
         dataList = new ArrayList<>();
 
@@ -201,8 +209,9 @@ public class DetailFragment extends Fragment implements ScreenShotable, OnScroll
     @Override
     public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
         noteEdit.ENTER_STATE = 1;
-        // Log.d("arg2", arg2 + "");
-        // TextView
+//        Resources res = getResources(); //resource handle
+//        Drawable drawable = res.getDrawable(R.drawable.content_note_bg1);
+//        linearLayout.setBackground(drawable);
         // content=(TextView)listview.getChildAt(arg2).findViewById(R.id.tv_content);
         // String content1=content.toString();
         String content = listview.getItemAtPosition(arg2) + "";
@@ -245,14 +254,30 @@ public class DetailFragment extends Fragment implements ScreenShotable, OnScroll
                                    long arg3) {
         final int n=arg2;
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        builder.setTitle("删除该日志");
+        builder.setTitle("删除该便签");
         builder.setMessage("确认删除吗？");
         builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                String content = listview.getItemAtPosition(n) + "";
-                String content1 = content.substring(content.indexOf("=") + 1,
-                        content.indexOf(","));
+                try {
+                    String content = listview.getItemAtPosition(n) + "";
+                    content = content.replace("\n","");
+                    gson = new Gson().newBuilder().setPrettyPrinting().disableHtmlEscaping().create();
+                    Notes notes = gson.fromJson(content, Notes.class);
+                    Log.i("you click","删除");
+                    JSONObject jsonObj = new JSONObject();
+                    jsonObj.put("id",notes.getId());
+                    ServiceUtil serviceUtil =  new ServiceUtil();
+                    String result= serviceUtil.getServiceInfoPost(Constants.deleteNote+ notes.getId(),jsonObj.toString());
+                    if ("success".equals(result)){
+                        Toast.makeText(getContext(), "你把我丢掉了，小主人！", Toast.LENGTH_SHORT).show();
+                    }
+                    RefreshNotesList();
+
+                }catch (Exception e){
+                    e.printStackTrace();;
+                }
+
 
 //                while (c.moveToNext()) {
 //                    String id = c.getString(c.getColumnIndex("_id"));

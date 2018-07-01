@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">三原色</string>
+    <string name="app_name">RGB</string>
 
     <string name="action_settings">Settings</string>
     <string name="drawer_open">Open</string>

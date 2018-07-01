@@ -51,7 +51,7 @@ public class FmainActivity extends AppCompatActivity implements ViewAnimator.Vie
         userId = bundle.getString("userId");
         setContentView(R.layout.activity_fmain);
         if(savedInstanceState == null) {
-            defaultFragment = DefaultFragment.newInstance(R.drawable.content_music,userId,null);
+            defaultFragment = DefaultFragment.newInstance(R.drawable.content_main,userId,null);
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.content_frame, defaultFragment)
                     .commit();

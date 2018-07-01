@@ -1,18 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="60dp"
+    android:orientation="vertical"
+    android:background="@drawable/content_note_bg1">
 
     <TextView
         android:id="@+id/titleTv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingLeft="0dp"
+        android:layout_marginLeft="10dp"
+        android:paddingTop="10dp"
         android:text="Android新技能"
-        android:textColor="#444"
+        android:textColor="#ffffff"
         android:typeface="sans"
-        android:textSize="18sp" />
+        android:textSize="16sp" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -25,11 +27,11 @@
             android:layout_width="264dp"
             android:layout_height="wrap_content"
             android:layout_below="@+id/titleTv"
-            android:layout_marginLeft="1dp"
+            android:layout_marginLeft="10dp"
             android:layout_weight="1"
             android:maxLines="1"
             android:minLines="1"
-            android:text=""
+            android:text=" "
             android:textColor="#898989"
             android:textSize="16sp" />
 
@@ -40,9 +42,10 @@
             android:layout_alignParentRight="true"
             android:layout_below="@+id/descTv"
             android:layout_gravity="right"
-            android:layout_marginTop="2dp"
+            android:layout_marginBottom="3dp"
+            android:layout_marginRight="3dp"
             android:drawableLeft="@drawable/action_unfinish"
             android:textSize="16sp" />
     </LinearLayout>
-
+-
 </LinearLayout>

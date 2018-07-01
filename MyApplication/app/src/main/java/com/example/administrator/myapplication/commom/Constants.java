@@ -27,5 +27,8 @@ public class Constants {
     //modifynotes列表
     public static String updateNote ="http://"+ip+":"+port+"/notes/updateNote";
 
+    //modifynotes列表
+    public static String deleteNote ="http://"+ip+":"+port+"/notes/deleteNotes/";
+
 
 }

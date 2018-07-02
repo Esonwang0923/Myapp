@@ -146,7 +146,7 @@ public class DetailFragment extends Fragment implements ScreenShotable, OnScroll
             simp_adapter.notifyDataSetChanged();
             listview.setAdapter(simp_adapter);
         }
-        simp_adapter = new SimpleAdapter(getContext(), getData(), R.layout.fragment_edititem, new String[] { "tv_content", "tv_date" }, new int[] {R.id.tv_content, R.id.tv_date });
+        simp_adapter = new SimpleAdapter(getContext(), getData(), R.layout.fragment_noteitem, new String[] { "tv_content", "tv_date" }, new int[] {R.id.tv_content, R.id.tv_date });
         listview.setAdapter(simp_adapter);
     }
 

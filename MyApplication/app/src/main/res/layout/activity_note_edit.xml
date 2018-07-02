@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFAE99"
+    android:background="#D9D9D9"
     android:orientation="vertical" >
 
     <LinearLayout
@@ -11,10 +11,12 @@
 
         <Button
             android:id="@+id/btn_cancel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/qmui_dialog_action_btn_bg"
-            android:text="取消" />
+            android:layout_width="35dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_height="35dp"
+            android:background="@drawable/note_edit_cancelstyle"
+            android:text="" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -27,7 +29,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="编辑备忘录"
+                android:text="编辑便签"
                 android:textSize="20sp" />
 
             <TextView
@@ -40,16 +42,19 @@
 
         <Button
             android:id="@+id/btn_ok"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/qmui_dialog_action_btn_bg"
-            android:text="保存" />
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/content_note_save"
+            android:text="" />
     </LinearLayout>
 
     <ScrollView
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:scrollbars="vertical" >
+        android:scrollbars="vertical"
+        android:background="@drawable/note_edit_bg">
 
         <LinearLayout
             android:layout_width="fill_parent"
@@ -60,8 +65,7 @@
             <EditText
                 android:id="@+id/et_content"
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:background="#FFAE99"
+                android:layout_height="match_parent"
                 android:textSize="20sp" />
         </LinearLayout>
     </ScrollView>

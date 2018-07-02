@@ -4,10 +4,8 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -16,7 +14,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
@@ -97,8 +94,8 @@ public class DetailFragment extends Fragment implements ScreenShotable, OnScroll
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_detail, container, false);
-        //setContentView(R.layout.fragment_detail);
+        View rootView = inflater.inflate(R.layout.fragment_notes, container, false);
+        //setContentView(R.layout.fragment_notes);
         tv_content = (TextView) rootView.findViewById(R.id.tv_content);
         linearLayout = (LinearLayout) rootView.findViewById(R.id.content_note_tag);
 

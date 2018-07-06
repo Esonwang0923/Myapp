@@ -88,7 +88,7 @@ public class noteEdit extends Activity {
                             jsonObj.put("note",content);
                             jsonObj.put("content",content);
                             jsonObj.put("userId",userId);
-                            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+                            SimpleDateFormat formatter = new SimpleDateFormat("yyyy年MM月dd日 HH时mm分ss秒");
                             Date curDate = new Date(System.currentTimeMillis());// 获取当前时间
                             String timestamp = formatter.format(curDate);
                             jsonObj.put("date",timestamp);
@@ -109,7 +109,7 @@ public class noteEdit extends Activity {
                         jsonObj.put("note",content);
                         jsonObj.put("content",content);
                         jsonObj.put("id",id);
-                        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+                        SimpleDateFormat formatter = new SimpleDateFormat("yyyy年MM月dd日 HH时mm分ss秒");
                         Date curDate = new Date(System.currentTimeMillis());// 获取当前时间
                         String timestamp = formatter.format(curDate);
                         jsonObj.put("date",timestamp);

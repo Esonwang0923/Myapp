@@ -25,6 +25,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.Toast;
 
+import com.alibaba.fastjson.JSON;
 import com.example.administrator.myapplication.commom.Constants;
 import com.example.administrator.myapplication.dao.Notes;
 import com.google.gson.Gson;
@@ -218,13 +219,10 @@ public class DetailFragment extends Fragment implements ScreenShotable, OnScroll
 //        linearLayout.setBackground(drawable);
         // content=(TextView)listview.getChildAt(arg2).findViewById(R.id.tv_content);
         // String content1=content.toString();
-        String content = listview.getItemAtPosition(arg2) + "";
-        content = content.replace("\n","");
-
-        gson = new Gson().newBuilder().setPrettyPrinting().disableHtmlEscaping().create();
+        Map<String ,Object> map = (Map<String, Object>) listview.getItemAtPosition(arg2) ;
+        //gson = new Gson().newBuilder().setPrettyPrinting().disableHtmlEscaping().create();
 
         //Notes notes = gson.fromJson(jsonReader, Notes.class);
-        Map<String,Object> map = new Gson().fromJson(content, new TypeToken<HashMap<String,Object>>(){}.getType());
 
         Log.d("CONTENT", String.valueOf(map.get("content")));
 

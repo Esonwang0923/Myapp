@@ -1,15 +1,15 @@
 package com.example.administrator.myapplication.dao;
 
 
-import java.sql.Date;
+import java.io.Serializable;
 
-public class Notes {
+public class Notes implements Serializable{
 
     public String note;
     public long id;
     public long userId;
     public String content;
-    public Date date;
+    public String edate;
 
     public String getNote() {
         return note;
@@ -35,12 +35,12 @@ public class Notes {
         this.content = content;
     }
 
-    public Date getDate() {
-        return date;
+    public String getEdate() {
+        return edate;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setEdate(String edate) {
+        this.edate = edate;
     }
 
     public long getUserId() {

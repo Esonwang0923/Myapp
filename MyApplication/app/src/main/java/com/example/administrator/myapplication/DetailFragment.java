@@ -28,9 +28,16 @@ import android.widget.Toast;
 import com.example.administrator.myapplication.commom.Constants;
 import com.example.administrator.myapplication.dao.Notes;
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.google.gson.reflect.TypeToken;
+import com.google.gson.stream.JsonReader;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.StringReader;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -161,11 +168,11 @@ public class DetailFragment extends Fragment implements ScreenShotable, OnScroll
                 String content = jsonObject.getString("content").replace("\r\n","").replace("\t","").trim();
                 long userId = Long.valueOf(jsonObject.getString("userId"));
                 long id = Long.valueOf(jsonObject.getString("id"));
-                Date date = Date.valueOf(jsonObject.getString("date"));
+                String date = jsonObject.getString("date");
                 Map<String,Object> notes = new HashMap<>();
                 notes.put("tv_content",note);
                 notes.put("tv_date",date);
-
+                notes.put("edate",date);
                 notes.put("id",id);
                 notes.put("userId",userId);
                 notes.put("content",content);
@@ -213,21 +220,20 @@ public class DetailFragment extends Fragment implements ScreenShotable, OnScroll
         // String content1=content.toString();
         String content = listview.getItemAtPosition(arg2) + "";
         content = content.replace("\n","");
-        gson = new Gson().newBuilder().setPrettyPrinting().disableHtmlEscaping().create();
-        Notes notes = gson.fromJson(content, Notes.class);
-        Log.d("CONTENT", notes.getContent());
 
-        // Intent intent = new Intent(mContext, noteEdit.class);
-        // intent.putExtra("data", text);
-        // setResult(4, intent);
-        // // intent.putExtra("data",text);
-        // startActivityForResult(intent, 3);
+        gson = new Gson().newBuilder().setPrettyPrinting().disableHtmlEscaping().create();
+
+        //Notes notes = gson.fromJson(jsonReader, Notes.class);
+        Map<String,Object> map = new Gson().fromJson(content, new TypeToken<HashMap<String,Object>>(){}.getType());
+
+        Log.d("CONTENT", String.valueOf(map.get("content")));
+
         Intent myIntent = new Intent();
         Bundle bundle = new Bundle();
-        bundle.putString("info",  notes.getContent());
+        bundle.putString("info",  String.valueOf(map.get("content")));
         bundle.putString("userId", userID);
 
-        noteEdit.id = (int) notes.getId();
+        noteEdit.id = (int) Integer.parseInt(String.valueOf(map.get("id")));
         myIntent.putExtras(bundle);
         myIntent.setClass(getActivity(), noteEdit.class);
         startActivityForResult(myIntent, 1);

@@ -1,14 +1,22 @@
 package com.example.administrator.myapplication;
 
+import android.Manifest;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
+
+import com.example.administrator.myapplication.utils.AudioRecoderUtils;
 
 import yalantis.com.sidemenu.interfaces.ScreenShotable;
 
@@ -26,9 +34,11 @@ public class DefaultFragment extends Fragment implements ScreenShotable {
     private int res;
     private static String userID;
     private static String tagName;
-    private ImageView mImageView;
+    private ImageView mImageView,imageView;
     private View containerView;
     private Bitmap bitmap;
+    private Button button,endbutton;
+    private AudioRecoderUtils audioRecoderUtils;
 
     /**
      * Use this factory method to create a new instance of
@@ -68,12 +78,47 @@ public class DefaultFragment extends Fragment implements ScreenShotable {
         View rootView = inflater.inflate(R.layout.fragment_default, container, false);
 
         mImageView = (ImageView) rootView.findViewById(R.id.image_detailcontent);
+        imageView = (ImageView) rootView.findViewById(R.id.progress);
+        button = (Button) rootView.findViewById(R.id.startRecord);
+        endbutton = (Button) rootView.findViewById(R.id.endRecord);
+
+
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View arg0) {
+                if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                        != PackageManager.PERMISSION_GRANTED) {
+                    //申请WRITE_EXTERNAL_STORAGE权限
+                    ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},1);
+                }
+
+                setLevel(2);
+                audioRecoderUtils = new AudioRecoderUtils();
+                audioRecoderUtils.startRecord();
+            }
+        });
+
+        endbutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View arg0) {
+                setLevel(2);
+                audioRecoderUtils.stopRecord();
+
+            }
+        });
+
+
         mImageView.setClickable(true);
         mImageView.setFocusable(true);
         mImageView.setImageResource(res);
+
         return rootView;
     }
 
+
+    public void setLevel(int level) {
+        imageView.getDrawable().setLevel(3000 + 6000 * level / 100);
+    }
 
 
     @Override

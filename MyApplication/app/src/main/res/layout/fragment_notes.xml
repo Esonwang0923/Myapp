@@ -38,15 +38,64 @@
             </ListView>
         </LinearLayout>
 
-        <Button
-            android:id="@+id/btn_editnote"
-            android:layout_width="fill_parent"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/note_add_btnstyle"
-            android:layout_gravity="center"
-            android:layout_marginBottom="1dp"
-            android:text=""
-            android:textSize="20sp" />
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_weight="1">
+                <Button
+                    android:id="@+id/btn_edit"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="1dp"
+                    android:background="@drawable/note_add_btnstyle"
+                    android:text=""
+                    android:textSize="20sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_weight="1">
+
+                <Button
+                    android:id="@+id/btn_editnote"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginBottom="1dp"
+                    android:background="@drawable/note_add_btnstyle"
+                    android:gravity="center"
+                    android:layout_gravity="center"
+                    android:text=""
+                    android:textSize="20sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_weight="1">
+                <Button
+                    android:id="@+id/btn_export"
+                    android:layout_width="51dp"
+                    android:layout_height="51dp"
+                    android:gravity="center"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="1dp"
+                    android:background="@drawable/note_prase_btnstyle"
+                    android:text=""
+                    android:textSize="20sp" />
+            </LinearLayout>
+
+        </LinearLayout>
 
     </LinearLayout>
 

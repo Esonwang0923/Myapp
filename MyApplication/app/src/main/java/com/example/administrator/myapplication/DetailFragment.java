@@ -27,6 +27,7 @@ import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.example.administrator.myapplication.commom.Constants;
+import com.example.administrator.myapplication.commom.CreateExcel;
 import com.example.administrator.myapplication.dao.Notes;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -45,6 +46,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import jxl.write.Label;
 import yalantis.com.sidemenu.interfaces.ScreenShotable;
 
 
@@ -71,6 +73,8 @@ public class DetailFragment extends Fragment implements ScreenShotable, OnScroll
     private SimpleAdapter simp_adapter;
     private List<Map<String, Object>> dataList;
     private Button addNote;
+    private Button export;
+
     private TextView tv_content;
     private LinearLayout linearLayout;
     private Gson gson;
@@ -100,7 +104,7 @@ public class DetailFragment extends Fragment implements ScreenShotable, OnScroll
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(LayoutInflater inflater, final ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_notes, container, false);
         //setContentView(R.layout.fragment_notes);
@@ -111,13 +115,13 @@ public class DetailFragment extends Fragment implements ScreenShotable, OnScroll
         dataList = new ArrayList<>();
 
         addNote = (Button) rootView.findViewById(R.id.btn_editnote);
+        export = (Button) rootView.findViewById(R.id.btn_export);
 //        mImageView = (ImageView) rootView.findViewById(R.id.image_detailcontent);
 //        mImageView.setClickable(true);
 //        mImageView.setFocusable(true);
 //        mImageView.setImageResource(res);
         mContext = getContext();
         addNote.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View arg0) {
                 noteEdit.ENTER_STATE = 0;
@@ -128,6 +132,54 @@ public class DetailFragment extends Fragment implements ScreenShotable, OnScroll
                 intent.putExtras(bundle);
                 startActivityForResult(intent, 1);
             }
+        });
+
+        export.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View arg0) {
+
+                AlertDialog dialog = new AlertDialog.Builder(getContext())
+                        .setIcon(R.drawable.ico_main)//设置标题的图片
+                        .setTitle("导出Excel")//设置对话框的标题
+                        .setMessage("确定转换导出?")//设置对话框的内容
+                        //设置对话框的按钮
+                        .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                //Toast.makeText(getContext(), "点击了取消按钮", Toast.LENGTH_SHORT).show();
+                                dialog.dismiss();
+                            }
+                        })
+                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                CreateExcel createExcel = new CreateExcel();
+                                CreateExcel.verifyStoragePermissions(getActivity());
+                                //createExcel.excelCreate();
+                                List<String[]> datas = new ArrayList<>();
+                                for (int i = 0; i < dataList.size(); i++) {
+                                    Map map = dataList.get(i);
+                                    String datae = (String)map.get("edate");
+                                    String contents = (String) map.get("content");
+                                    String[] content = {datae,contents};
+                                    datas.add(content);
+                                }
+
+                                try {
+                                    createExcel.saveDataToExcel(datas);
+                                    Toast.makeText(getContext(), "导出成功", Toast.LENGTH_SHORT).show();
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+
+                                //Toast.makeText(getContext(), "点击了确定的按钮", Toast.LENGTH_SHORT).show();
+                                dialog.dismiss();
+                            }
+                        }).create();
+                dialog.show();
+
+            }
+
         });
 
         RefreshNotesList();

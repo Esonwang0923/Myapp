@@ -12,4 +12,41 @@
         android:layout_height="fill_parent"
         android:id="@+id/image_detailcontent"
         android:scaleType="fitXY"/>
+    <LinearLayout
+        android:background="@drawable/qmui_dialog_bg"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:padding="16dp" >
+
+        <ImageView
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:id="@+id/progress"
+            android:src="@drawable/layer_microphone" />
+
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:id="@android:id/text1"
+            android:layout_width="114dp"
+            android:textColor="#FFFFFF"
+            android:gravity="center"
+            android:textSize="16sp"
+            android:text="00:00" />
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:id="@+id/startRecord"
+            android:text="kaishi"/>
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:id="@+id/endRecord"
+            android:text="jiesu"/>
+
+    </LinearLayout>
+
+
 </FrameLayout>

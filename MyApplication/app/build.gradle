@@ -40,4 +40,6 @@ dependencies {
     compile 'com.github.ozodrukh:CircularReveal:1.0.4'
     implementation 'com.google.code.gson:gson:2.8.5'
     compile 'com.alibaba:fastjson:1.2.24'
+    compile 'com.hynnet:jxl:2.6.12.1'
+    compile 'jp.wasabeef:richeditor-android:1.2.0'
 }

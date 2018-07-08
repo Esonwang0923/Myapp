@@ -92,7 +92,7 @@ public class DefaultFragment extends Fragment implements ScreenShotable {
                     ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},1);
                 }
 
-                setLevel(2);
+                setLevel(5400);
                 audioRecoderUtils = new AudioRecoderUtils();
                 audioRecoderUtils.startRecord();
             }
@@ -101,7 +101,7 @@ public class DefaultFragment extends Fragment implements ScreenShotable {
         endbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
-                setLevel(2);
+                setLevel(5400);
                 audioRecoderUtils.stopRecord();
 
             }

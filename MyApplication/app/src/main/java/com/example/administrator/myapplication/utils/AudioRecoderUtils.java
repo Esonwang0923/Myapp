@@ -22,7 +22,7 @@ public class AudioRecoderUtils {
     private OnAudioStatusUpdateListener audioStatusUpdateListener;
 
     public AudioRecoderUtils(){
-        this.filePath = Environment.getExternalStorageDirectory().getAbsolutePath();
+        this.filePath = Environment.getExternalStorageDirectory().getAbsolutePath()+"/record.amr";
     }
 
     public AudioRecoderUtils(File file) {
@@ -110,6 +110,7 @@ public class AudioRecoderUtils {
             if (ratio > 1) {
                 db = 20 * Math.log10(ratio);
                 if(null != audioStatusUpdateListener) {
+                    Log.i("ACTION_START", "startTime_dd" +db);
                     audioStatusUpdateListener.onUpdate(db);
                 }
             }

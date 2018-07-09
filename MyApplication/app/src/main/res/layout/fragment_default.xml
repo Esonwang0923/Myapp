@@ -28,7 +28,12 @@
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:background="@color/qmui_config_color_transparent">
-
+            <TextView
+                android:id="@+id/speechTextView"
+                android:layout_margin="10dp"
+                android:layout_width="wrap_content"
+                android:textColor="#d0d0"
+                android:layout_height="50dp" />
             <ListView
                 android:layout_width="match_parent"
                 android:id="@android:id/list"
@@ -41,7 +46,7 @@
             <LinearLayout
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
-                android:orientation="horizontal"
+                android:orientation="vertical"
                 android:gravity="center"
                 android:padding="12dp" >
 
@@ -53,6 +58,7 @@
                     android:gravity="center"
                     android:text="开始录制"
                     android:padding="12dp" />
+
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>

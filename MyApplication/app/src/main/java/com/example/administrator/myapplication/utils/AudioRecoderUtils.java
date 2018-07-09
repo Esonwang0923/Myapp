@@ -40,7 +40,6 @@ public class AudioRecoderUtils {
     public void startRecord() {
 
 
-
         // 开始录音
         /* ①Initial：实例化MediaRecorder对象 */
         if (mMediaRecorder == null)

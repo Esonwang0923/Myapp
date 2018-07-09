@@ -27,8 +27,10 @@ import android.widget.Toast;
 
 import com.example.administrator.myapplication.utils.AudioRecoderDialog;
 import com.example.administrator.myapplication.utils.AudioRecoderUtils;
+import com.example.administrator.myapplication.utils.SpeechRecognizerTool;
 
 import java.io.File;
+import java.util.ArrayList;
 
 import yalantis.com.sidemenu.interfaces.ScreenShotable;
 
@@ -40,7 +42,7 @@ import yalantis.com.sidemenu.interfaces.ScreenShotable;
  * Use the {@link DefaultFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class DefaultFragment extends Fragment implements ScreenShotable, View.OnTouchListener, AudioRecoderUtils.OnAudioStatusUpdateListener {
+public class DefaultFragment extends Fragment implements ScreenShotable, View.OnTouchListener, AudioRecoderUtils.OnAudioStatusUpdateListener,SpeechRecognizerTool.ResultsCallback  {
     // TODO: Rename parameter arguments, choose names that match
     // TODO: Rename and change types of parameters
     private int res;
@@ -49,11 +51,12 @@ public class DefaultFragment extends Fragment implements ScreenShotable, View.On
     private ImageView mImageView,imageView;
     private View containerView;
     private Bitmap bitmap;
-    private TextView button;
+    private TextView button,mTextView;
     private AudioRecoderUtils audioRecoderUtils;
     private AudioRecoderDialog recoderDialog;
     private AudioRecoderUtils recoderUtils;
     private long downT;
+    private SpeechRecognizerTool mSpeechRecognizerTool;
 
 
 
@@ -102,9 +105,8 @@ public class DefaultFragment extends Fragment implements ScreenShotable, View.On
         }
 
         button = (TextView) rootView.findViewById(R.id.startButton);
+        mTextView = (TextView) rootView.findViewById(R.id.speechTextView);
         button.setOnTouchListener(this);
-
-
 
         recoderDialog = new AudioRecoderDialog(getContext());
         recoderDialog.setShowAlpha(0.98f);
@@ -112,10 +114,13 @@ public class DefaultFragment extends Fragment implements ScreenShotable, View.On
         recoderUtils = new AudioRecoderUtils(new File(Environment.getExternalStorageDirectory() + "/recoder.amr"));
         recoderUtils.setOnAudioStatusUpdateListener(this);
 
-
         mImageView.setClickable(true);
         mImageView.setFocusable(true);
         mImageView.setImageResource(res);
+
+
+        mSpeechRecognizerTool = new SpeechRecognizerTool(getContext());
+
 
         return rootView;
     }
@@ -138,18 +143,69 @@ public class DefaultFragment extends Fragment implements ScreenShotable, View.On
     public boolean onTouch(View view, MotionEvent event) {
         switch(event.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                recoderUtils.startRecord();
+                initPermission();
+                mSpeechRecognizerTool.startASR(this);
+                //recoderUtils.startRecord();
                 downT = System.currentTimeMillis();
                 recoderDialog.showAtLocation(view, Gravity.CENTER, 0, 0);
                 button.setBackgroundResource(R.drawable.shape_recoder_btn_recoding);
                 return true;
             case MotionEvent.ACTION_UP:
-                recoderUtils.stopRecord();
+                //recoderUtils.stopRecord();
                 recoderDialog.dismiss();
                 button.setBackgroundResource(R.drawable.shape_recoder_btn_normal);
                 return true;
         }
         return false;
+    }
+
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        mSpeechRecognizerTool.createTool();
+    }
+    @Override
+    public void onStop() {
+        super.onStop();
+        mSpeechRecognizerTool.destroyTool();
+    }
+    @Override
+    public void onResults(String result) {
+        final String finalResult = result;
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                mTextView.setText(finalResult);
+            }
+        });
+    }
+
+    /**
+     * android 6.0 以上需要动态申请权限
+     */
+    private void initPermission() {
+        String permissions[] = {Manifest.permission.RECORD_AUDIO,
+                Manifest.permission.ACCESS_NETWORK_STATE,
+                Manifest.permission.INTERNET,
+                Manifest.permission.READ_PHONE_STATE,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE
+        };
+
+        ArrayList<String> toApplyList = new ArrayList<String>();
+
+        for (String perm :permissions){
+            if (PackageManager.PERMISSION_GRANTED != ContextCompat.checkSelfPermission(getContext(), perm)) {
+                toApplyList.add(perm);
+                //进入到这里代表没有权限.
+
+            }
+        }
+        String tmpList[] = new String[toApplyList.size()];
+        if (!toApplyList.isEmpty()){
+            ActivityCompat.requestPermissions(getActivity(), toApplyList.toArray(tmpList), 123);
+        }
+
     }
 
     @Override

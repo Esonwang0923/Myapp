@@ -12,40 +12,49 @@
         android:layout_height="fill_parent"
         android:id="@+id/image_detailcontent"
         android:scaleType="fitXY"/>
-    <LinearLayout
-        android:background="@drawable/qmui_dialog_bg"
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
         android:orientation="vertical"
-        android:gravity="center"
-        android:padding="16dp" >
+        android:background="@color/qmui_config_color_transparent" >
 
-        <ImageView
-            android:layout_width="48dp"
+        <RelativeLayout
+            android:layout_width="match_parent"
             android:layout_height="48dp"
-            android:id="@+id/progress"
-            android:src="@drawable/layer_microphone" />
+            android:background="#303030" ></RelativeLayout>
 
-        <TextView
-            android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"
-            android:id="@android:id/text1"
-            android:layout_width="114dp"
-            android:textColor="#FFFFFF"
-            android:gravity="center"
-            android:textSize="16sp"
-            android:text="00:00" />
-        <Button
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:id="@+id/startRecord"
-            android:text="kaishi"/>
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:id="@+id/endRecord"
-            android:text="jiesu"/>
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:background="@color/qmui_config_color_transparent">
 
+            <ListView
+                android:layout_width="match_parent"
+                android:id="@android:id/list"
+                android:layout_height="0dp"
+                android:divider="#00000000"
+                android:listSelector="@null"
+                android:dividerHeight="5dp"
+                android:layout_weight="1" />
+
+            <LinearLayout
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:padding="12dp" >
+
+                <TextView
+                    android:background="@drawable/selector_recodering_btn"
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:id="@+id/startButton"
+                    android:gravity="center"
+                    android:text="开始录制"
+                    android:padding="12dp" />
+            </LinearLayout>
+        </LinearLayout>
     </LinearLayout>
 
 

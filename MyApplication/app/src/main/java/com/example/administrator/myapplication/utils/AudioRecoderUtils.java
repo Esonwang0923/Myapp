@@ -38,6 +38,9 @@ public class AudioRecoderUtils {
      * @return
      */
     public void startRecord() {
+
+
+
         // 开始录音
         /* ①Initial：实例化MediaRecorder对象 */
         if (mMediaRecorder == null)
@@ -120,5 +123,6 @@ public class AudioRecoderUtils {
 
     public interface OnAudioStatusUpdateListener {
         public void onUpdate(double db);
+        public void onStop(String filePath);
     }
 }

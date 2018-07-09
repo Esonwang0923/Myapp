@@ -186,6 +186,16 @@ public class FmainActivity extends AppCompatActivity implements ViewAnimator.Vie
             transaction.commit();
             return articleFragment;
 
+        }else if("Close".equals(name)){
+            if(defaultFragment == null){
+                defaultFragment = DefaultFragment.newInstance(R.drawable.content_main,userId,null);
+                transaction.add(R.id.content_frame, defaultFragment,"close");
+            }
+            hideFragment(transaction);
+            transaction.show(defaultFragment);
+            transaction.commit();
+            return defaultFragment;
+
         }else{
 
             if(detailFragment == null){
@@ -210,9 +220,9 @@ public class FmainActivity extends AppCompatActivity implements ViewAnimator.Vie
         if (detailFragment != null) {
             transaction.hide(detailFragment);
         }
-//        if (f3 != null) {
-//            transaction.hide(f3);
-//        }
+        if (defaultFragment != null) {
+            transaction.hide(defaultFragment);
+        }
     }
 
         @Override
@@ -221,7 +231,8 @@ public class FmainActivity extends AppCompatActivity implements ViewAnimator.Vie
 
         switch (slideMenuItem.getName()) {
             case ArticleFragment.CLOSE:
-                return screenShotable;
+                //return screenShotable;
+                return replaceFragment(screenShotable, position,name);
             case ArticleFragment.BOOK:
                 return replaceFragment(screenShotable, position,name);
             default:

@@ -1,22 +1,34 @@
 package com.example.administrator.myapplication;
 
 import android.Manifest;
+import android.annotation.TargetApi;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.administrator.myapplication.utils.AudioRecoderDialog;
 import com.example.administrator.myapplication.utils.AudioRecoderUtils;
+
+import java.io.File;
 
 import yalantis.com.sidemenu.interfaces.ScreenShotable;
 
@@ -28,7 +40,7 @@ import yalantis.com.sidemenu.interfaces.ScreenShotable;
  * Use the {@link DefaultFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class DefaultFragment extends Fragment implements ScreenShotable {
+public class DefaultFragment extends Fragment implements ScreenShotable, View.OnTouchListener, AudioRecoderUtils.OnAudioStatusUpdateListener {
     // TODO: Rename parameter arguments, choose names that match
     // TODO: Rename and change types of parameters
     private int res;
@@ -37,8 +49,13 @@ public class DefaultFragment extends Fragment implements ScreenShotable {
     private ImageView mImageView,imageView;
     private View containerView;
     private Bitmap bitmap;
-    private Button button,endbutton;
+    private TextView button;
     private AudioRecoderUtils audioRecoderUtils;
+    private AudioRecoderDialog recoderDialog;
+    private AudioRecoderUtils recoderUtils;
+    private long downT;
+
+
 
     /**
      * Use this factory method to create a new instance of
@@ -78,34 +95,22 @@ public class DefaultFragment extends Fragment implements ScreenShotable {
         View rootView = inflater.inflate(R.layout.fragment_default, container, false);
 
         mImageView = (ImageView) rootView.findViewById(R.id.image_detailcontent);
-        imageView = (ImageView) rootView.findViewById(R.id.progress);
-        button = (Button) rootView.findViewById(R.id.startRecord);
-        endbutton = (Button) rootView.findViewById(R.id.endRecord);
+        //判断SDK版本是否大于等于19，大于就让他显示，小于就要隐藏，不然低版本会多出来一个
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            setTranslucentStatus(true);
+            //还有设置View的高度，因为每个型号的手机状态栏高度都不相同
+        }
+
+        button = (TextView) rootView.findViewById(R.id.startButton);
+        button.setOnTouchListener(this);
 
 
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View arg0) {
-                if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                        != PackageManager.PERMISSION_GRANTED) {
-                    //申请WRITE_EXTERNAL_STORAGE权限
-                    ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},1);
-                }
 
-                setLevel(5400);
-                audioRecoderUtils = new AudioRecoderUtils();
-                audioRecoderUtils.startRecord();
-            }
-        });
+        recoderDialog = new AudioRecoderDialog(getContext());
+        recoderDialog.setShowAlpha(0.98f);
 
-        endbutton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View arg0) {
-                setLevel(5400);
-                audioRecoderUtils.stopRecord();
-
-            }
-        });
+        recoderUtils = new AudioRecoderUtils(new File(Environment.getExternalStorageDirectory() + "/recoder.amr"));
+        recoderUtils.setOnAudioStatusUpdateListener(this);
 
 
         mImageView.setClickable(true);
@@ -116,8 +121,51 @@ public class DefaultFragment extends Fragment implements ScreenShotable {
     }
 
 
-    public void setLevel(int level) {
-        imageView.getDrawable().setLevel(3000 + 6000 * level / 100);
+    @TargetApi(19)
+    private void setTranslucentStatus(boolean on) {
+        Window win = getActivity().getWindow();
+        WindowManager.LayoutParams winParams = win.getAttributes();
+        final int bits = WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS;
+        if (on) {
+            winParams.flags |= bits;
+        } else {
+            winParams.flags &= ~bits;
+        }
+        win.setAttributes(winParams);
+    }
+
+    @Override
+    public boolean onTouch(View view, MotionEvent event) {
+        switch(event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                recoderUtils.startRecord();
+                downT = System.currentTimeMillis();
+                recoderDialog.showAtLocation(view, Gravity.CENTER, 0, 0);
+                button.setBackgroundResource(R.drawable.shape_recoder_btn_recoding);
+                return true;
+            case MotionEvent.ACTION_UP:
+                recoderUtils.stopRecord();
+                recoderDialog.dismiss();
+                button.setBackgroundResource(R.drawable.shape_recoder_btn_normal);
+                return true;
+        }
+        return false;
+    }
+
+    @Override
+    public void onUpdate(double db) {
+        if(null != recoderDialog) {
+            int level = (int) db;
+            recoderDialog.setLevel((int)db);
+            recoderDialog.setTime(System.currentTimeMillis() - downT);
+        }
+    }
+
+
+    //录音结束，filePath为保存路径
+    @Override
+    public void onStop(String filePath) {
+        Toast.makeText(getActivity(), "录音保存在：" + filePath, Toast.LENGTH_SHORT).show();
     }
 
 

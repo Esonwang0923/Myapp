@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".DetailFragment"
-    android:id="@+id/container_detail">
+    android:id="@+id/container_detail"
+    android:background="@drawable/content_main">
 
     <!-- TODO: Update blank fragment layout -->
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"

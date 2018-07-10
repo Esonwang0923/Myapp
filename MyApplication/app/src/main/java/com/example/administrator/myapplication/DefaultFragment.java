@@ -9,6 +9,7 @@ import android.graphics.Canvas;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
@@ -61,6 +62,7 @@ public class DefaultFragment extends Fragment implements ScreenShotable, View.On
     private AudioRecoderUtils recoderUtils;
     private long downT;
     private SpeechRecognizerTool mSpeechRecognizerTool;
+    private static final int MY_PERMISSION_REQUEST_CODE = 10000;
 
 
 
@@ -98,6 +100,8 @@ public class DefaultFragment extends Fragment implements ScreenShotable, View.On
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        checkPermission();
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_default, container, false);
 
@@ -147,7 +151,7 @@ public class DefaultFragment extends Fragment implements ScreenShotable, View.On
     public boolean onTouch(View view, MotionEvent event) {
         switch(event.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                initPermission();
+
                 mSpeechRecognizerTool.startASR(this);
                 recoderUtils.startRecord();
                 downT = System.currentTimeMillis();
@@ -212,6 +216,98 @@ public class DefaultFragment extends Fragment implements ScreenShotable, View.On
         });
     }
 
+    public void checkPermission() {
+        /**
+         * 第 1 步: 检查是否有相应的权限
+         */
+        boolean isAllGranted = checkPermissionAllGranted(
+                new String[] {
+                        Manifest.permission.SEND_SMS,
+                        Manifest.permission.READ_SMS,
+                        Manifest.permission.RECEIVE_SMS,
+                        Manifest.permission.RECORD_AUDIO,
+                        Manifest.permission.ACCESS_NETWORK_STATE,
+                        Manifest.permission.INTERNET,
+                        Manifest.permission.READ_PHONE_STATE,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE
+//                        Manifest.permission.CAMERA
+                }
+        );
+        // 如果这3个权限全都拥有, 则直接执行读取短信代码
+        if (isAllGranted) {
+            //toast("所有权限已经授权！");
+            return;
+        }
+
+        /**
+         * 第 2 步: 请求权限
+         */
+        // 一次请求多个权限, 如果其他有权限是已经授予的将会自动忽略掉
+        ActivityCompat.requestPermissions(
+                getActivity(),
+                new String[] {
+                        Manifest.permission.SEND_SMS,
+                        Manifest.permission.READ_SMS,
+                        Manifest.permission.RECEIVE_SMS,
+                        Manifest.permission.RECORD_AUDIO,
+                        Manifest.permission.ACCESS_NETWORK_STATE,
+                        Manifest.permission.INTERNET,
+                        Manifest.permission.READ_PHONE_STATE,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE
+//                        Manifest.permission.CAMERA
+                },
+                MY_PERMISSION_REQUEST_CODE
+        );
+    }
+    /**
+     * 检查是否拥有指定的所有权限
+     */
+    private boolean checkPermissionAllGranted(String[] permissions) {
+        for (String permission : permissions) {
+            if (ContextCompat.checkSelfPermission(getContext(), permission) != PackageManager.PERMISSION_GRANTED) {
+                // 只要有一个权限没有被授予, 则直接返回 false
+                //toast("检查权限");
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * 第 3 步: 申请权限结果返回处理
+     */
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if (requestCode == MY_PERMISSION_REQUEST_CODE) {
+            boolean isAllGranted = true;
+
+            // 判断是否所有的权限都已经授予了
+            for (int grant : grantResults) {
+                if (grant != PackageManager.PERMISSION_GRANTED) {
+                    isAllGranted = false;
+                    break;
+                }
+            }
+
+            if (isAllGranted) {
+                // 如果所有的权限都授予了, 则执行读取短信代码
+                //getData();
+                //simpleAdapter.notifyDataSetChanged();
+            } else {
+                // 弹出对话框告诉用户需要权限的原因, 并引导用户去应用权限管理中手动打开权限按钮
+//                openAppDetails();
+                toast("需要授权！");
+
+            }
+        }
+    }
+
+    public void toast(String content){
+        Toast.makeText(getContext(),content,Toast.LENGTH_SHORT).show();
+    }
+
     /**
      * android 6.0 以上需要动态申请权限
      */
@@ -229,6 +325,8 @@ public class DefaultFragment extends Fragment implements ScreenShotable, View.On
             if (PackageManager.PERMISSION_GRANTED != ContextCompat.checkSelfPermission(getContext(), perm)) {
                 toApplyList.add(perm);
                 //进入到这里代表没有权限.
+                ActivityCompat.requestPermissions(getActivity(),
+                        new String[]{perm}, 123);
 
             }
         }

@@ -21,12 +21,15 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.administrator.myapplication.utils.AudioRecoderDialog;
 import com.example.administrator.myapplication.utils.AudioRecoderUtils;
+import com.example.administrator.myapplication.utils.NoteUtils;
+import com.example.administrator.myapplication.utils.ProgressTextUtils;
 import com.example.administrator.myapplication.utils.SpeechRecognizerTool;
 
 import java.io.File;
@@ -51,7 +54,8 @@ public class DefaultFragment extends Fragment implements ScreenShotable, View.On
     private ImageView mImageView,imageView;
     private View containerView;
     private Bitmap bitmap;
-    private TextView button,mTextView;
+    private TextView button;
+    private EditText mTextView;
     private AudioRecoderUtils audioRecoderUtils;
     private AudioRecoderDialog recoderDialog;
     private AudioRecoderUtils recoderUtils;
@@ -105,7 +109,7 @@ public class DefaultFragment extends Fragment implements ScreenShotable, View.On
         }
 
         button = (TextView) rootView.findViewById(R.id.startButton);
-        mTextView = (TextView) rootView.findViewById(R.id.speechTextView);
+        mTextView = (EditText) rootView.findViewById(R.id.speechTextView);
         button.setOnTouchListener(this);
 
         recoderDialog = new AudioRecoderDialog(getContext());
@@ -145,15 +149,17 @@ public class DefaultFragment extends Fragment implements ScreenShotable, View.On
             case MotionEvent.ACTION_DOWN:
                 initPermission();
                 mSpeechRecognizerTool.startASR(this);
-                //recoderUtils.startRecord();
+                recoderUtils.startRecord();
                 downT = System.currentTimeMillis();
                 recoderDialog.showAtLocation(view, Gravity.CENTER, 0, 0);
-                button.setBackgroundResource(R.drawable.shape_recoder_btn_recoding);
+                //button.setBackgroundResource(R.drawable.shape_recoder_btn_recoding);
+                button.setBackgroundResource(R.drawable.main_press_mic);
+
                 return true;
             case MotionEvent.ACTION_UP:
-                //recoderUtils.stopRecord();
+                recoderUtils.stopRecord();
                 recoderDialog.dismiss();
-                button.setBackgroundResource(R.drawable.shape_recoder_btn_normal);
+                button.setBackgroundResource(R.drawable.main_unpress_mic);
                 return true;
         }
         return false;
@@ -176,7 +182,31 @@ public class DefaultFragment extends Fragment implements ScreenShotable, View.On
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                mTextView.setText(finalResult);
+
+                if("全部清空".equals(finalResult) || "全部青空".equals(finalResult)){
+                    mTextView.setText("");
+                }else{
+                    String[] arrStr = {"好的保存","请保存","保存一下","保存为便签","就这样保存"};
+                    String content=mTextView.getText().toString();
+                    String cont = content;
+                    content +=finalResult+"。";
+                    for(int i=0;i<arrStr.length;i++){
+                        String item = arrStr[i];
+                        if (finalResult.contains(item)){
+                            String result = NoteUtils.addNote(cont,Long.valueOf(userID));
+                            String msg = "";
+                            if("success".equals(result)){
+                                msg = "已经为小主人保存到便签啦";
+                            }else{
+                                msg = "对不起!小主,保存失败啦";
+                            }
+                            ProgressTextUtils.toastShow(getActivity(),msg);
+                            mTextView.setText("");
+                            break;
+                        }
+                    }
+
+                }
             }
         });
     }

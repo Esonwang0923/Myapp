@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,6 +30,8 @@ import com.alibaba.fastjson.JSON;
 import com.example.administrator.myapplication.commom.Constants;
 import com.example.administrator.myapplication.commom.CreateExcel;
 import com.example.administrator.myapplication.dao.Notes;
+import com.example.administrator.myapplication.utils.NoteUtils;
+import com.example.administrator.myapplication.utils.ProgressTextUtils;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -312,17 +315,12 @@ public class DetailFragment extends Fragment implements ScreenShotable, OnScroll
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 try {
-                    String content = listview.getItemAtPosition(n) + "";
-                    content = content.replace("\n","");
-                    gson = new Gson().newBuilder().setPrettyPrinting().disableHtmlEscaping().create();
-                    Notes notes = gson.fromJson(content, Notes.class);
+                    Map<String ,Object> map = (Map<String, Object>) listview.getItemAtPosition(n) ;
+                    long noteId = Long.valueOf(map.get("id").toString());
                     Log.i("you click","删除");
-                    JSONObject jsonObj = new JSONObject();
-                    jsonObj.put("id",notes.getId());
-                    ServiceUtil serviceUtil =  new ServiceUtil();
-                    String result= serviceUtil.getServiceInfoPost(Constants.deleteNote+ notes.getId(),jsonObj.toString());
+                    String result = NoteUtils.deleteNote(null,noteId);
                     if ("success".equals(result)){
-                        Toast.makeText(getContext(), "你把我丢掉了，小主人！", Toast.LENGTH_SHORT).show();
+                        ProgressTextUtils.toastShow(getActivity(),"已丢弃，主人！");
                     }
                     RefreshNotesList();
 

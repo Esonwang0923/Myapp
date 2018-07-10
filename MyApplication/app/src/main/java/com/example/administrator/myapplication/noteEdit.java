@@ -22,7 +22,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.administrator.myapplication.commom.Constants;
-import com.example.administrator.myapplication.commom.NotesDB;
+import com.example.administrator.myapplication.utils.NoteUtils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -33,7 +33,6 @@ public class noteEdit extends Activity {
     private EditText et_content;
     private Button btn_ok;
     private Button btn_cancel;
-    private NotesDB DB;
     private SQLiteDatabase dbread;
     public static int ENTER_STATE = 0;
     public static String last_content;
@@ -84,16 +83,17 @@ public class noteEdit extends Activity {
                 if (ENTER_STATE == 0) {
                     if (!content.equals("")) {
                         try {
-                            JSONObject jsonObj = new JSONObject();
-                            jsonObj.put("note",content);
-                            jsonObj.put("content",content);
-                            jsonObj.put("userId",userId);
-                            SimpleDateFormat formatter = new SimpleDateFormat("yyyy年MM月dd日 HH时mm分ss秒");
-                            Date curDate = new Date(System.currentTimeMillis());// 获取当前时间
-                            String timestamp = formatter.format(curDate);
-                            jsonObj.put("date",timestamp);
-                            ServiceUtil serviceUtil = new ServiceUtil();
-                            String result= serviceUtil.getServiceInfoPost(Constants.addNotes,jsonObj.toString());
+//                            JSONObject jsonObj = new JSONObject();
+//                            jsonObj.put("note",content);
+//                            jsonObj.put("content",content);
+//                            jsonObj.put("userId",userId);
+//                            SimpleDateFormat formatter = new SimpleDateFormat("yyyy年MM月dd日 HH时mm分ss秒");
+//                            Date curDate = new Date(System.currentTimeMillis());// 获取当前时间
+//                            String timestamp = formatter.format(curDate);
+//                            jsonObj.put("date",timestamp);
+//                            ServiceUtil serviceUtil = new ServiceUtil();
+//                            String result= serviceUtil.getServiceInfoPost(Constants.addNotes,jsonObj.toString());
+                            String result = NoteUtils.addNote(content,userId);
                             if(!"success".equals(result)){
                                 throw new JSONException("插入报错");
                             }
@@ -105,16 +105,17 @@ public class noteEdit extends Activity {
                 } else {  // 查看并修改一个已有的日志
                     Log.d("执行命令", "执行了该函数");
                     try {
-                        JSONObject jsonObj = new JSONObject();
-                        jsonObj.put("note",content);
-                        jsonObj.put("content",content);
-                        jsonObj.put("id",id);
-                        SimpleDateFormat formatter = new SimpleDateFormat("yyyy年MM月dd日 HH时mm分ss秒");
-                        Date curDate = new Date(System.currentTimeMillis());// 获取当前时间
-                        String timestamp = formatter.format(curDate);
-                        jsonObj.put("date",timestamp);
-                        ServiceUtil serviceUtil = new ServiceUtil();
-                        String result= serviceUtil.getServiceInfoPost(Constants.updateNote,jsonObj.toString());
+//                        JSONObject jsonObj = new JSONObject();
+//                        jsonObj.put("note",content);
+//                        jsonObj.put("content",content);
+//                        jsonObj.put("id",id);
+//                        SimpleDateFormat formatter = new SimpleDateFormat("yyyy年MM月dd日 HH时mm分ss秒");
+//                        Date curDate = new Date(System.currentTimeMillis());// 获取当前时间
+//                        String timestamp = formatter.format(curDate);
+//                        jsonObj.put("date",timestamp);
+//                        ServiceUtil serviceUtil = new ServiceUtil();
+//                        String result= serviceUtil.getServiceInfoPost(Constants.updateNote,jsonObj.toString());
+                        String result = NoteUtils.modifyNote(content,id);
                         if(!"success".equals(result)){
                             throw new JSONException("插入报错");
                         }

@@ -1,63 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container_default"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    tools:context=".DefaultFragment"
-    android:id="@+id/container_default">
+    android:paddingTop="60dp"
+    tools:context=".DefaultFragment">
 
     <!-- TODO: Update blank fragment layout -->
     <ImageView
+        android:id="@+id/image_detailcontent"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:id="@+id/image_detailcontent"
-        android:scaleType="fitXY"/>
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_height="match_parent"
-        android:layout_width="match_parent"
-        android:orientation="vertical"
-        android:background="@color/qmui_config_color_transparent" >
+        android:scaleType="fitXY" />
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:background="#303030" ></RelativeLayout>
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/qmui_config_color_transparent"
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:background="@color/qmui_config_color_transparent">
-            <TextView
+            android:background="@color/qmui_config_color_transparent"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:orientation="vertical">
+
+            <EditText
                 android:id="@+id/speechTextView"
-                android:layout_margin="10dp"
                 android:layout_width="wrap_content"
-                android:textColor="#d0d0"
-                android:layout_height="50dp" />
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:textColor="#d0d0" />
+
             <ListView
-                android:layout_width="match_parent"
                 android:id="@android:id/list"
+                android:layout_width="match_parent"
                 android:layout_height="0dp"
+                android:layout_weight="1"
                 android:divider="#00000000"
-                android:listSelector="@null"
                 android:dividerHeight="5dp"
-                android:layout_weight="1" />
+                android:listSelector="@null" />
 
             <LinearLayout
-                android:layout_height="wrap_content"
                 android:layout_width="match_parent"
-                android:orientation="vertical"
+                android:layout_height="wrap_content"
                 android:gravity="center"
-                android:padding="12dp" >
+                android:orientation="vertical"
+                android:padding="15dp">
 
                 <TextView
-                    android:background="@drawable/selector_recodering_btn"
-                    android:layout_height="wrap_content"
-                    android:layout_width="match_parent"
                     android:id="@+id/startButton"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:background="@drawable/main_unpress_mic"
                     android:gravity="center"
-                    android:text="开始录制"
-                    android:padding="12dp" />
+                    android:padding="12dp"
+                    android:text="" />
 
             </LinearLayout>
         </LinearLayout>

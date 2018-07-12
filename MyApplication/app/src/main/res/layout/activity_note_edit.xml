@@ -2,8 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#D9D9D9"
-    android:orientation="vertical" >
+    android:background="#fffff0"
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -54,7 +54,7 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:scrollbars="vertical"
-        android:background="@drawable/note_edit_bg">
+        android:background="#fffff0">
 
         <LinearLayout
             android:layout_width="fill_parent"
@@ -66,7 +66,10 @@
                 android:id="@+id/et_content"
                 android:layout_width="fill_parent"
                 android:layout_height="match_parent"
-                android:textSize="20sp" />
+                android:background="@null"
+                android:hint="写点什么。。。"
+                android:inputType="textMultiLine"
+                android:ems="10"/>
         </LinearLayout>
     </ScrollView>
 

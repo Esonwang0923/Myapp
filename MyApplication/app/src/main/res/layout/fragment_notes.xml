@@ -34,17 +34,6 @@
                 android:layout_marginRight="2dp"
                 android:textSize="12sp" />
 
-            <Button
-                android:id="@+id/notes_search_btn"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="6"
-                android:background="@drawable/note_search_btnstyle"
-                android:gravity="left"
-                android:paddingBottom="2dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginLeft="6dp"></Button>
-
         </LinearLayout>
 
 

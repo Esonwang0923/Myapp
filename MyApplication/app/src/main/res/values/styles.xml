@@ -8,6 +8,7 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="QMUITabSegmentStyle">@style/AppTabSegment</item>
     </style>
+
     <style name="AppTabSegment">
         <item name="qmui_tab_has_indicator">false</item>
         <item name="qmui_tab_indicator_height">1dp</item>
@@ -15,6 +16,18 @@
         <item name="android:textSize">14sp</item>
         <item name="qmui_tab_icon_position">left</item>
         <item name="qmui_tab_mode">fixed</item>
+    </style>
+
+    <style name="FullscreenTheme" parent="QMUI.Compat.NoActionBar">
+        <item name="android:actionBarStyle">@style/FullscreenActionBarStyle</item>
+        <item name="android:windowActionBarOverlay">true</item>
+        <item name="android:windowBackground">@null</item>
+        <item name="metaButtonBarStyle">?android:attr/buttonBarStyle</item>
+        <item name="metaButtonBarButtonStyle">?android:attr/buttonBarButtonStyle</item>
+    </style>
+
+    <style name="FullscreenActionBarStyle" parent="android:Widget.Holo.ActionBar">
+        <item name="android:background">@color/black_overlay</item>
     </style>
 
 

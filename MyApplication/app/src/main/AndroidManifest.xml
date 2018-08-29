@@ -7,18 +7,17 @@
     <uses-permission android:name="android.permission.READ_PROFILE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
-    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"/>
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
 
     <!-- begin: baidu speech sdk  权限 -->
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+
     <!-- end: baidu speech sdk  权限 -->
-
-
     <application
         android:allowBackup="true"
         android:icon="@drawable/ico_main"
@@ -26,19 +25,22 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/QMUI.Compat.NoActionBar">
-        <!-- APP_ID API_KEY SECRET_KEY-->
+
+        <!-- APP_ID API_KEY SECRET_KEY -->
         <meta-data
             android:name="com.baidu.speech.APP_ID"
-            android:value="11093849"/>
+            android:value="11093849" />
         <meta-data
             android:name="com.baidu.speech.API_KEY"
             android:value="LFyDmN0p5MwbtlGv9Lqb0Nyj" />
         <meta-data
             android:name="com.baidu.speech.SECRET_KEY"
             android:value="Z47Ht5lqEiibMGp5KTtI3WpTPcsjdepF" />
+
         <service
             android:name="com.baidu.speech.VoiceRecognitionService"
             android:exported="false" />
+
         <activity
             android:name=".LoginActivity"
             android:label="@string/app_name">
@@ -59,7 +61,12 @@
             android:label="@string/title_activity_fmain" />
         <activity
             android:name=".noteEdit"
-            android:label="@string/title_activity_note_edit"></activity>
+            android:label="@string/title_activity_note_edit" />
+        <activity
+            android:name=".FullscreenActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/title_activity_fullscreen"
+            android:theme="@style/FullscreenTheme"></activity>
     </application>
 
 </manifest>

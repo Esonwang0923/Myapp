@@ -32,6 +32,8 @@ public class FmainActivity extends AppCompatActivity implements ViewAnimator.Vie
     private ArticleFragment articleFragment;
     private DetailFragment detailFragment;
     private DefaultFragment defaultFragment;
+    private NetworkFragment networkFragment;
+
 
     private ViewAnimator viewAnimator;
     private int res = R.drawable.content_music;
@@ -44,7 +46,6 @@ public class FmainActivity extends AppCompatActivity implements ViewAnimator.Vie
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-
         //新页面接收数据
         Bundle bundle = this.getIntent().getExtras();
         //接收content值
@@ -196,6 +197,16 @@ public class FmainActivity extends AppCompatActivity implements ViewAnimator.Vie
             transaction.commit();
             return defaultFragment;
 
+        }else if("Paint".equals(name)){
+            if(networkFragment == null){
+                networkFragment = NetworkFragment.newInstance(this.res,userId,null);
+                transaction.add(R.id.content_frame, networkFragment,"close");
+            }
+            hideFragment(transaction);
+            transaction.show(defaultFragment);
+            transaction.commit();
+            return defaultFragment;
+
         }else{
 
             if(detailFragment == null){
@@ -234,6 +245,8 @@ public class FmainActivity extends AppCompatActivity implements ViewAnimator.Vie
                 //return screenShotable;
                 return replaceFragment(screenShotable, position,name);
             case ArticleFragment.BOOK:
+                return replaceFragment(screenShotable, position,name);
+            case ArticleFragment.PAINT:
                 return replaceFragment(screenShotable, position,name);
             default:
                 return replaceFragment(screenShotable, position,name);

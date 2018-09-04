@@ -47,5 +47,6 @@ dependencies {
     compile 'com.alibaba:fastjson:1.2.24'
     compile 'com.hynnet:jxl:2.6.12.1'
     compile 'jp.wasabeef:richeditor-android:1.2.0'
+    compile 'com.baoyz.swipemenulistview:library:1.3.0'
     implementation files('libs/bdasr_V3_20180320_9066860.jar')
 }

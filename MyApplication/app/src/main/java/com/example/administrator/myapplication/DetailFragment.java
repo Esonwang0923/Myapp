@@ -6,6 +6,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -27,6 +29,10 @@ import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
+import com.baoyz.swipemenulistview.SwipeMenu;
+import com.baoyz.swipemenulistview.SwipeMenuCreator;
+import com.baoyz.swipemenulistview.SwipeMenuItem;
+import com.baoyz.swipemenulistview.SwipeMenuListView;
 import com.example.administrator.myapplication.commom.Constants;
 import com.example.administrator.myapplication.commom.CreateExcel;
 import com.example.administrator.myapplication.dao.Notes;
@@ -188,10 +194,11 @@ public class DetailFragment extends Fragment implements ScreenShotable, OnScroll
         listview.setOnItemClickListener(this);
         listview.setOnItemLongClickListener(this);
         listview.setOnScrollListener(this);
-
         return rootView;
 
     }
+
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

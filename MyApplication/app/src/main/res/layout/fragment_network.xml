@@ -6,9 +6,62 @@
     tools:context=".NetworkFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <WebView
-        android:id="@+id/webView"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:layout_marginTop="50dp"
+        android:background="@android:color/white"
+        android:orientation="vertical">
+
+        <WebView
+            android:id="@+id/webView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="1dp"
+            android:layout_weight="1">
+
+        </WebView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="15"
+            android:background="@android:color/transparent"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/back_button"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_weight="1"
+                android:layout_marginLeft="20dp"
+                android:background="@drawable/arrow_previous" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="30"
+                android:layout_gravity="center_horizontal"
+                android:orientation="vertical">
+                <Button
+                    android:id="@+id/brower_main_button"
+                    android:layout_width="33dp"
+                    android:layout_height="33dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@drawable/brower_main__btn_style" />
+            </LinearLayout>
+            <Button
+                android:id="@+id/pre_button"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_weight="1"
+                android:layout_marginRight="20dp"
+
+                android:background="@drawable/arrow_back" />
+        </LinearLayout>
+
+    </LinearLayout>
+
 
 </FrameLayout>

@@ -1,18 +1,24 @@
 package com.example.administrator.myapplication;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Button;
 
+import com.example.administrator.myapplication.commom.Constants;
 import com.example.administrator.myapplication.utils.AudioRecoderUtils;
 import com.example.administrator.myapplication.utils.SpeechRecognizerTool;
 
@@ -32,8 +38,10 @@ public class NetworkFragment extends Fragment implements ScreenShotable, View.On
     // TODO: Rename and change types of parameters
     private int res;
     private static String userID;
+    private ProgressDialog progressDialog;
 
     private WebView webView;
+    private Button back_button,pre_button,brower_main_button;
 
     private OnFragmentInteractionListener mListener;
 
@@ -66,10 +74,10 @@ public class NetworkFragment extends Fragment implements ScreenShotable, View.On
                              Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.fragment_network, container, false);
+        back_button = (Button) rootView.findViewById(R.id.back_button);
         webView = (WebView)rootView.findViewById(R.id.webView);
 //        webView.loadUrl("file:///android_asset/normal.html");
-        webView.loadUrl("https://www.baidu.com/");
-
+        webView.loadUrl(Constants.BROWERURL);
         webView.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
@@ -78,28 +86,96 @@ public class NetworkFragment extends Fragment implements ScreenShotable, View.On
             }
         });
 
-        //支持App内部javascript交互
+        webView.setWebViewClient(new WebViewClient() {
 
+            //重写页面打开和结束的监听。打开时弹出菊花，关闭时隐藏菊花
+            /**
+             * 界面打开的回调
+             */
+            @Override
+            public void onPageStarted(WebView view, String url, Bitmap favicon) {
+                if (progressDialog != null && progressDialog.isShowing()) {
+                    progressDialog.dismiss();
+                }
+                //弹出菊花
+                progressDialog = new ProgressDialog(getContext());
+                progressDialog.setTitle("提示");
+                progressDialog.setMessage("软软正在拼命加载……");
+                progressDialog.show();
+
+            }
+
+            /**
+             * 界面打开完毕的回调
+             */
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                //隐藏菊花:不为空，正在显示。才隐藏关闭
+                if (progressDialog != null && progressDialog.isShowing()) {
+                    progressDialog.dismiss();
+                }
+            }
+
+        });
+
+        //支持App内部javascript交互
         webView.getSettings().setJavaScriptEnabled(true);
 
         //自适应屏幕
-
         webView.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
 
         webView.getSettings().setLoadWithOverviewMode(true);
 
         //设置可以支持缩放
-
         webView.getSettings().setSupportZoom(true);
 
         //扩大比例的缩放
-
         webView.getSettings().setUseWideViewPort(true);
 
         //设置是否出现缩放工具
-
-        webView.getSettings().setBuiltInZoomControls(true);
+        webView.getSettings().setBuiltInZoomControls(false);
         return rootView;
+    }
+
+
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        // final User user ;
+        Button btn_send = (Button) getActivity().findViewById(R.id.back_button);
+        pre_button = (Button) getActivity().findViewById(R.id.pre_button);
+        brower_main_button = (Button) getActivity().findViewById(R.id.brower_main_button);
+
+        btn_send.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //这是一个监听用的按键的方法，keyCode 监听用户的动作，如果是按了返回键，同时Webview要返回的话，WebView执行回退操作，因为mWebView.canGoBack()返回的是一个Boolean类型，所以我们把它返回为true
+                if(webView.canGoBack()){
+                    webView.goBack();
+                }
+            }
+        });
+
+        pre_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //这是一个监听用的按键的方法，keyCode 监听用户的动作，如果是按了返回键，同时Webview要返回的话，WebView执行回退操作，因为mWebView.canGoBack()返回的是一个Boolean类型，所以我们把它返回为true
+                if(webView.canGoBack()){
+                    webView.goForward();
+                }
+            }
+        });
+
+        brower_main_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //这是一个监听用的按键的方法，keyCode 监听用户的动作，如果是按了返回键，同时Webview要返回的话，WebView执行回退操作，因为mWebView.canGoBack()返回的是一个Boolean类型，所以我们把它返回为true
+                if(webView.canGoBack()){
+                    webView.loadUrl(Constants.BROWERURL);
+                }
+            }
+        });
     }
 
     @Override

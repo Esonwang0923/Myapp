@@ -5,7 +5,8 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:paddingTop="50dp"
-    tools:context=".DefaultFragment">
+    tools:context=".DefaultFragment"
+    android:theme="@style/QMUI.QQFaceView">
 
     <!-- TODO: Update blank fragment layout -->
     <ImageView
@@ -27,27 +28,21 @@
             android:focusable="true"
             android:focusableInTouchMode="true"
             android:orientation="vertical">
-
-            <EditText
-                android:id="@+id/speechTextView"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:background="@null"
-                android:ems="10"
-                android:hint="说点什么。。。"
-                android:inputType="textMultiLine"
-                android:textColor="#ffffff" />/>
-
-            <ListView
-                android:id="@android:id/list"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:divider="#00000000"
-                android:dividerHeight="5dp"
-                android:listSelector="@null" />
-
+                android:layout_weight="1">
+                <EditText
+                    android:id="@+id/speechTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:background="@null"
+                    android:ems="10"
+                    android:hint="说点什么。。。"
+                    android:inputType="textMultiLine"
+                    android:textColor="#ffffff" />
+            </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -59,7 +54,7 @@
                     android:id="@+id/startButton"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
-                    android:background="@drawable/main_unpress_mic"
+                    android:background="@drawable/main_phone_btnstyle"
                     android:gravity="center"
                     android:padding="12dp"
                     android:text="" />

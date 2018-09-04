@@ -7,6 +7,8 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="QMUITabSegmentStyle">@style/AppTabSegment</item>
+        <item name="QMUIButtonStyle">@style/QMUI.RoundButton</item>
+
     </style>
 
     <style name="AppTabSegment">

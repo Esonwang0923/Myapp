@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/content_main">
 
+
     <io.codetail.widget.RevealFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/container_frame"
         android:layout_width="match_parent"
@@ -26,9 +27,8 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/qmui_s_dialog_check_mark"
-            android:minHeight="?attr/actionBarSize"
-            android:paddingTop="16dp" />
+            android:layout_marginTop="10dp"
+            android:background="@drawable/qmui_s_dialog_check_mark" />
 
     </io.codetail.widget.RevealFrameLayout>
 
@@ -36,7 +36,8 @@
         android:id="@+id/scrollView"
         android:layout_width="@dimen/sliding_menu_width"
         android:layout_height="match_parent"
-        android:layout_gravity="start|bottom"
+        android:layout_gravity="bottom|start"
+        android:layout_marginTop="30dp"
         android:scrollbarThumbVertical="@android:color/transparent">
 
         <LinearLayout
@@ -47,4 +48,5 @@
             android:divider="@android:color/transparent"
             android:orientation="vertical"></LinearLayout>
     </ScrollView>
+
 </android.support.v4.widget.DrawerLayout>

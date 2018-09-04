@@ -4,7 +4,7 @@
     <!-- 获得焦点但未按下时的背景图片 -->
     <item android:drawable="@drawable/content_note_save" android:state_enabled="true" android:state_focused="true" android:state_pressed="false"/>
     <!-- 按下时的背景图片 -->
-    <item android:drawable="@drawable/content_note_save1" android:state_enabled="true" android:state_pressed="true"/>
-    <item android:drawable="@drawable/content_note_save1" android:state_enabled="true" android:state_focused="true"/>
+    <item android:drawable="@drawable/content_note_save_bg" android:state_enabled="true" android:state_pressed="true"/>
+    <item android:drawable="@drawable/content_note_save_bg" android:state_enabled="true" android:state_focused="true"/>
     <item android:drawable="@drawable/content_note_save"/>
 </selector>

@@ -5,45 +5,23 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/content_main"
-    android:paddingTop="20dp"
-    tools:context=".DetailFragment">
+    tools:context=".DetailFragment"
+    android:theme="@style/QMUI.QQFaceView">
 
     <!-- TODO: Update blank fragment layout -->
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:orientation="vertical">
-
-
         <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:orientation="horizontal"
-            android:paddingTop="10dp">
-
-            <EditText
-                android:layout_width="fill_parent"
-                android:layout_height="30dp"
-                android:layout_marginLeft="10dp"
-                android:layout_weight="1"
-                android:background="@color/qmui_config_color_gray_8"
-                android:gravity="center"
-                android:paddingBottom="2dp"
-                android:paddingLeft="5dp"
-                android:layout_marginRight="2dp"
-                android:textSize="12sp" />
-
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:orientation="horizontal">
         </LinearLayout>
-
-
-
-
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:layout_weight="1">
-
+            android:layout_weight="50">
             <ListView
                 android:id="@+id/detaillistview"
                 android:layout_width="match_parent"
@@ -52,31 +30,14 @@
                 android:divider="#00000000"
                 android:dividerHeight="3dp"
                 android:footerDividersEnabled="false"
-                android:listSelector="@color/orchid"></ListView>
+                android:listSelector="@color/tan"></ListView>
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical">
-
-                <Button
-                    android:id="@+id/btn_edit"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:layout_gravity="center"
-                    android:layout_marginBottom="1dp"
-                    android:background="@drawable/note_add_btnstyle"
-                    android:text=""
-                    android:textSize="20sp" />
-
-            </LinearLayout>
+            android:layout_height="40dp"
+            android:orientation="horizontal"
+            android:layout_marginBottom="4dp">
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -86,14 +47,31 @@
 
                 <Button
                     android:id="@+id/btn_editnote"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
                     android:layout_gravity="center"
                     android:layout_marginBottom="1dp"
                     android:background="@drawable/note_add_btnstyle"
                     android:gravity="center"
                     android:text=""
                     android:textSize="20sp" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <!--<Button-->
+                    <!--android:id="@+id/btn_edit"-->
+                    <!--android:layout_width="50dp"-->
+                    <!--android:layout_height="50dp"-->
+                    <!--android:layout_gravity="center"-->
+                    <!--android:layout_marginBottom="1dp"-->
+                    <!--android:background="@drawable/note_add_btnstyle"-->
+                    <!--android:text=""-->
+                    <!--android:textSize="20sp" />-->
+
             </LinearLayout>
 
             <LinearLayout
@@ -104,8 +82,8 @@
 
                 <Button
                     android:id="@+id/btn_export"
-                    android:layout_width="51dp"
-                    android:layout_height="51dp"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
                     android:layout_gravity="center"
                     android:layout_marginBottom="1dp"
                     android:background="@drawable/note_prase_btnstyle"

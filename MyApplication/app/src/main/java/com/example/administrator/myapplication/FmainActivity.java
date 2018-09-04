@@ -200,12 +200,12 @@ public class FmainActivity extends AppCompatActivity implements ViewAnimator.Vie
         }else if("Paint".equals(name)){
             if(networkFragment == null){
                 networkFragment = NetworkFragment.newInstance(this.res,userId,null);
-                transaction.add(R.id.content_frame, networkFragment,"close");
+                transaction.add(R.id.content_frame, networkFragment,"Paint");
             }
             hideFragment(transaction);
-            transaction.show(defaultFragment);
+            transaction.show(networkFragment);
             transaction.commit();
-            return defaultFragment;
+            return networkFragment;
 
         }else{
 
@@ -230,6 +230,9 @@ public class FmainActivity extends AppCompatActivity implements ViewAnimator.Vie
         }
         if (detailFragment != null) {
             transaction.hide(detailFragment);
+        }
+        if (networkFragment != null) {
+            transaction.hide(networkFragment);
         }
         if (defaultFragment != null) {
             transaction.hide(defaultFragment);

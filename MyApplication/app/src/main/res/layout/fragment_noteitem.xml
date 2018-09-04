@@ -4,7 +4,8 @@
     android:layout_height="55dp"
     android:orientation="vertical"
     android:id="@+id/content_note_tag"
-    android:background="@drawable/content_note_bg1">
+    android:background="@drawable/content_note_bg1"
+    android:theme="@style/QMUI.QQFaceView">
 
     <LinearLayout
         android:layout_width="match_parent"

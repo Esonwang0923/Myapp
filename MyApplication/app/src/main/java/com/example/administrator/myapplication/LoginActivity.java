@@ -51,7 +51,7 @@ import static android.Manifest.permission.READ_CONTACTS;
 /**
  * A login screen that offers login via email/password.
  */
-public class LoginActivity extends Activity{
+public class LoginActivity extends Activity {
 
     private EditText id_login;
     private EditText password_login;
@@ -70,35 +70,35 @@ public class LoginActivity extends Activity{
         sp = this.getSharedPreferences("userInfo", Context.MODE_PRIVATE);
         //找到相应的布局及控件
         setContentView(R.layout.activity_login);
-        id_login=(EditText) findViewById(R.id.login_id);
-        password_login=(EditText) findViewById(R.id.login_password);
-        avatar_login=(ImageView) findViewById(R.id.login_avatar);
-        rememberpassword_login=(CheckBox) findViewById(R.id.login_rememberpassword);
-        auto_login=(CheckBox) findViewById(R.id.login_autologin);
-        button_login=(Button) findViewById(R.id.login_button);
+        id_login = (EditText) findViewById(R.id.login_id);
+        password_login = (EditText) findViewById(R.id.login_password);
+        avatar_login = (ImageView) findViewById(R.id.login_avatar);
+        rememberpassword_login = (CheckBox) findViewById(R.id.login_rememberpassword);
+        auto_login = (CheckBox) findViewById(R.id.login_autologin);
+        button_login = (Button) findViewById(R.id.login_button);
 
-        if (sp.getBoolean("ischeck",false)){
+        if (sp.getBoolean("ischeck", false)) {
             rememberpassword_login.setChecked(true);
-            id_login.setText(sp.getString("PHONEEDIT",""));
-            password_login.setText(sp.getString("PASSWORD",""));
+            id_login.setText(sp.getString("PHONEEDIT", ""));
+            password_login.setText(sp.getString("PASSWORD", ""));
             //密文密码
             password_login.setInputType(PASSWORD_MIWEN);
-            if (sp.getBoolean("auto_ischeck",false)){
+            if (sp.getBoolean("auto_ischeck", false)) {
                 auto_login.setChecked(true);
 
                 try {
-                    User user =new User();
+                    User user = new User();
                     user.setCount(id_login.getText().toString());
                     user.setPassword(password_login.getText().toString());
                     JSONObject jsonObj = new JSONObject();
-                    jsonObj.put("count",id_login);
-                    jsonObj.put("password",password_login);
+                    jsonObj.put("count", id_login);
+                    jsonObj.put("password", password_login);
                     ServiceUtil serviceUtil = new ServiceUtil();
-                    String result= serviceUtil.getServiceInfoPost(Constants.UserByCountAndPassword,jsonObj.toString());
-                    if (result.length()>1){
+                    String result = serviceUtil.getServiceInfoPost(Constants.UserByCountAndPassword, jsonObj.toString());
+                    if (result.length() > 1) {
                         Intent i = new Intent(LoginActivity.this, FmainActivity.class);
                         startActivity(i);
-                    }else{
+                    } else {
                         Toast.makeText(LoginActivity.this, "手机号码或密码错误，请重新登录", Toast.LENGTH_SHORT).show();
 
                     }
@@ -115,42 +115,42 @@ public class LoginActivity extends Activity{
             @Override
             public void onClick(View v) {
                 id_login.getPaint().setFlags(0);
-                idvalue=id_login.getText().toString();
+                idvalue = id_login.getText().toString();
                 password_login.getPaint().setFlags(0);
-                passwordvalue=password_login.getText().toString();
+                passwordvalue = password_login.getText().toString();
 
-                if (!idvalue.equals("") && !passwordvalue.equals("")){
+                if (!idvalue.equals("") && !passwordvalue.equals("")) {
 
-                    if (rememberpassword_login.isChecked()){
-                        SharedPreferences.Editor editor=sp.edit();
-                        editor.putString("PHONEEDIT",idvalue);
-                        editor.putString("PASSWORD",passwordvalue);
+                    if (rememberpassword_login.isChecked()) {
+                        SharedPreferences.Editor editor = sp.edit();
+                        editor.putString("PHONEEDIT", idvalue);
+                        editor.putString("PASSWORD", passwordvalue);
                         editor.commit();
                     }
                     try {
-                        User user =new User();
+                        User user = new User();
                         user.setCount(id_login.getText().toString());
                         user.setPassword(password_login.getText().toString());
                         JSONObject jsonObj = new JSONObject();
-                        jsonObj.put("count",idvalue);
-                        jsonObj.put("password",passwordvalue);
+                        jsonObj.put("count", idvalue);
+                        jsonObj.put("password", passwordvalue);
                         ServiceUtil serviceUtil = new ServiceUtil();
-                        String result= serviceUtil.getServiceInfoPost(Constants.UserByCountAndPassword,jsonObj.toString());
-                        if (result.length()>1){
+                        String result = serviceUtil.getServiceInfoPost(Constants.UserByCountAndPassword, jsonObj.toString());
+                        if (result.length() > 1) {
                             Intent i = new Intent(LoginActivity.this, FmainActivity.class);
-                            Bundle bundle=new Bundle();
+                            Bundle bundle = new Bundle();
                             //传递name参数为tinyphp
                             bundle.putString("userId", idvalue);
                             i.putExtras(bundle);
                             startActivity(i);
-                        }else{
+                        } else {
                             Toast.makeText(LoginActivity.this, "手机号码或密码错误，请重新登录", Toast.LENGTH_SHORT).show();
                         }
 
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                }else{
+                } else {
                     Toast.makeText(LoginActivity.this, "手机号码或密码错误，请重新登录", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -159,13 +159,12 @@ public class LoginActivity extends Activity{
         rememberpassword_login.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (rememberpassword_login.isChecked()){
+                if (rememberpassword_login.isChecked()) {
                     System.out.println("记住密码已选中");
-                    sp.edit().putBoolean("ischeck",true).commit();
-                }
-                else {
+                    sp.edit().putBoolean("ischeck", true).commit();
+                } else {
                     System.out.println("记住密码没有选中");
-                    sp.edit().putBoolean("ischeck",false).commit();
+                    sp.edit().putBoolean("ischeck", false).commit();
                 }
             }
         });
@@ -173,12 +172,12 @@ public class LoginActivity extends Activity{
         auto_login.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (auto_login.isChecked()){
+                if (auto_login.isChecked()) {
                     System.out.println("自动登录已选中");
-                    sp.edit().putBoolean("auto_ischeck",true).commit();
-                }else {
+                    sp.edit().putBoolean("auto_ischeck", true).commit();
+                } else {
                     System.out.println("自动登录没有选中");
-                    sp.edit().putBoolean("auto_ischeck",false).commit();
+                    sp.edit().putBoolean("auto_ischeck", false).commit();
                 }
             }
         });

@@ -14,60 +14,60 @@ import java.util.Date;
  */
 public class NoteUtils {
 
-    public static String addNote(String content,long userId){
-        String result="";
+    public static String addNote(String content, long userId) {
+        String result = "";
         try {
             JSONObject jsonObj = new JSONObject();
-            jsonObj.put("note",content);
-            jsonObj.put("content",content);
-            jsonObj.put("userId",userId);
+            jsonObj.put("note", content);
+            jsonObj.put("content", content);
+            jsonObj.put("userId", userId);
             SimpleDateFormat formatter = new SimpleDateFormat("yyyy年MM月dd日 HH时mm分ss秒");
             Date curDate = new Date(System.currentTimeMillis());// 获取当前时间
             String timestamp = formatter.format(curDate);
-            jsonObj.put("date",timestamp);
+            jsonObj.put("date", timestamp);
             ServiceUtil serviceUtil = new ServiceUtil();
-            result= serviceUtil.getServiceInfoPost(Constants.addNotes,jsonObj.toString());
+            result = serviceUtil.getServiceInfoPost(Constants.addNotes, jsonObj.toString());
         } catch (JSONException e) {
             e.printStackTrace();
-            result="failed";
+            result = "failed";
         }
         return result;
 
     }
 
 
-    public static String modifyNote(String content,int id){
-        String result="";
+    public static String modifyNote(String content, int id) {
+        String result = "";
         try {
             JSONObject jsonObj = new JSONObject();
-            jsonObj.put("note",content);
-            jsonObj.put("content",content);
-            jsonObj.put("id",id);
+            jsonObj.put("note", content);
+            jsonObj.put("content", content);
+            jsonObj.put("id", id);
             SimpleDateFormat formatter = new SimpleDateFormat("yyyy年MM月dd日 HH时mm分ss秒");
             Date curDate = new Date(System.currentTimeMillis());// 获取当前时间
             String timestamp = formatter.format(curDate);
-            jsonObj.put("date",timestamp);
+            jsonObj.put("date", timestamp);
             ServiceUtil serviceUtil = new ServiceUtil();
-            result= serviceUtil.getServiceInfoPost(Constants.updateNote,jsonObj.toString());
+            result = serviceUtil.getServiceInfoPost(Constants.updateNote, jsonObj.toString());
         } catch (JSONException e) {
             e.printStackTrace();
-            result="failed";
+            result = "failed";
         }
         return result;
 
     }
 
 
-    public static String deleteNote(String content,Long noteId){
-        String result="";
+    public static String deleteNote(String content, Long noteId) {
+        String result = "";
         try {
             JSONObject jsonObj = new JSONObject();
-            jsonObj.put("id",noteId);
-            ServiceUtil serviceUtil =  new ServiceUtil();
-            result= serviceUtil.getServiceInfoPost(Constants.deleteNote+ noteId,jsonObj.toString());
+            jsonObj.put("id", noteId);
+            ServiceUtil serviceUtil = new ServiceUtil();
+            result = serviceUtil.getServiceInfoPost(Constants.deleteNote + noteId, jsonObj.toString());
         } catch (JSONException e) {
             e.printStackTrace();
-            result="failed";
+            result = "failed";
         }
         return result;
 

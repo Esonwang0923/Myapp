@@ -13,6 +13,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -134,6 +135,18 @@ public class NetworkFragment extends Fragment implements ScreenShotable, View.On
 
         //设置是否出现缩放工具
         webView.getSettings().setBuiltInZoomControls(false);
+
+        webView.getSettings().setAppCacheEnabled(true);
+        webView.getSettings().setDomStorageEnabled(true);
+        webView.getSettings().supportMultipleWindows();
+        webView.getSettings().setAllowContentAccess(true);
+        webView.getSettings().setSavePassword(true);
+        webView.getSettings().setSaveFormData(true);
+        webView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
+        webView.getSettings().setLoadsImagesAutomatically(true);
+
+        webView.setWebChromeClient(new WebChromeClient());//这行最好不要丢掉
+
         return rootView;
     }
 

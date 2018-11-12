@@ -191,7 +191,7 @@ public class DefaultFragment extends Fragment implements ScreenShotable, View.On
                     String[] arrStr = {"好的保存","请保存","保存一下","保存为便签","就这样保存"};
                     String content=mTextView.getText().toString();
                     String cont = content;
-                    content +=finalResult+"。";
+                    content +=finalResult+",";
                     mTextView.setText(content);
                     for(int i=0;i<arrStr.length;i++){
                         String item = arrStr[i];

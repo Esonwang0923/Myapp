@@ -30,7 +30,10 @@ public class Constants {
     //modifynotes列表
     public static String deleteNote ="http://"+ip+":"+port+"/notes/deleteNotes/";
 
-    public static String BROWERURL = "https://www.so.com/";
+    //页面
+    public static String BROWERURL = "http://www.minidou.top:8080/#/taskmain";
+
+
 
 
 }

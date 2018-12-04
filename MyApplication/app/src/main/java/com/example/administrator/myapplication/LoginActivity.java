@@ -106,8 +106,7 @@ public class LoginActivity extends Activity {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-//                Intent intent = new Intent(MainActivity.this,SecondActivity.class);
-//                startActivity(intent);
+
             }
         }
 

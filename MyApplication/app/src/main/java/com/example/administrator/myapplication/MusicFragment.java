@@ -1,27 +1,21 @@
 package com.example.administrator.myapplication;
 
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.Button;
 
 import com.example.administrator.myapplication.commom.Constants;
 import com.example.administrator.myapplication.utils.AudioRecoderUtils;
-import com.example.administrator.myapplication.utils.ItemListJavaScriptHandler;
 import com.example.administrator.myapplication.utils.SpeechRecognizerTool;
 
 import yalantis.com.sidemenu.interfaces.ScreenShotable;
@@ -30,12 +24,12 @@ import yalantis.com.sidemenu.interfaces.ScreenShotable;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link NetworkFragment.OnFragmentInteractionListener} interface
+ * {@link MusicFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link NetworkFragment#newInstance} factory method to
+ * Use the {@link MusicFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class NetworkFragment extends Fragment implements ScreenShotable, View.OnTouchListener, AudioRecoderUtils.OnAudioStatusUpdateListener,SpeechRecognizerTool.ResultsCallback{
+public class MusicFragment extends Fragment implements ScreenShotable, View.OnTouchListener, AudioRecoderUtils.OnAudioStatusUpdateListener,SpeechRecognizerTool.ResultsCallback{
 
     // TODO: Rename and change types of parameters
     private int res;
@@ -54,9 +48,9 @@ public class NetworkFragment extends Fragment implements ScreenShotable, View.On
      * @return A new instance of fragment NetworkFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static NetworkFragment newInstance(int resId, String userId,String name) {
+    public static MusicFragment newInstance(int resId, String userId, String name) {
         userID = userId;
-        NetworkFragment fragment = new NetworkFragment();
+        MusicFragment fragment = new MusicFragment();
         Bundle bundle = new Bundle();
         bundle.putInt(Integer.class.getName(), resId);
         bundle.putString("userId",userId);
@@ -78,9 +72,9 @@ public class NetworkFragment extends Fragment implements ScreenShotable, View.On
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View rootView = inflater.inflate(R.layout.fragment_network, container, false);
-        webView = rootView.findViewById(R.id.webView);
-        webView.loadUrl(Constants.BROWERURL);
+        View rootView = inflater.inflate(R.layout.fragment_music, container, false);
+        webView = rootView.findViewById(R.id.mwebView);
+        webView.loadUrl(Constants.MUSICRURL);
 
         webView.setWebViewClient(new WebViewClient() {
 

@@ -55,7 +55,6 @@ public class DefaultFragment extends Fragment implements ScreenShotable, View.On
     private Bitmap bitmap;
     private TextView button;
     private EditText mTextView;
-    private AudioRecoderUtils audioRecoderUtils;
     private AudioRecoderDialog recoderDialog;
     private AudioRecoderUtils recoderUtils;
     private long downT;

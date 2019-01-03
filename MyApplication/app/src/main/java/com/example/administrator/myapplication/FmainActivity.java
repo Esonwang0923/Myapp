@@ -1,5 +1,6 @@
 package com.example.administrator.myapplication;
 
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
@@ -9,6 +10,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -33,10 +35,12 @@ public class FmainActivity extends AppCompatActivity implements ViewAnimator.Vie
     private DetailFragment detailFragment;
     private DefaultFragment defaultFragment;
     private NetworkFragment networkFragment;
+    private MusicFragment musicFragment;
+
 
 
     private ViewAnimator viewAnimator;
-    private int res = R.drawable.content_music;
+    private int res = R.drawable.content_main;
     private LinearLayout linearLayout;
     private String userId;
     private Boolean isTrue =true;
@@ -164,7 +168,7 @@ public class FmainActivity extends AppCompatActivity implements ViewAnimator.Vie
     }
 
     private ScreenShotable replaceFragment(ScreenShotable screenShotable, int topPosition,String name) {
-        this.res = this.res == R.drawable.content_music ? R.drawable.content_films : R.drawable.content_music;
+        this.res = this.res == R.drawable.content_main ? R.drawable.content_main : R.drawable.content_main;
         View view = findViewById(R.id.content_frame);
         int finalRadius = Math.max(view.getWidth(), view.getHeight());
         SupportAnimator animator = ViewAnimationUtils.createCircularReveal(view, 0, topPosition, 0, finalRadius);
@@ -207,6 +211,16 @@ public class FmainActivity extends AppCompatActivity implements ViewAnimator.Vie
             transaction.commit();
             return networkFragment;
 
+        }else if("Case".equals(name)){
+            if(musicFragment == null){
+                musicFragment = MusicFragment.newInstance(this.res,userId,null);
+                transaction.add(R.id.content_frame, musicFragment,"Paint");
+            }
+            hideFragment(transaction);
+            transaction.show(musicFragment);
+            transaction.commit();
+            return musicFragment;
+
         }else{
 
             if(detailFragment == null){
@@ -237,6 +251,9 @@ public class FmainActivity extends AppCompatActivity implements ViewAnimator.Vie
         if (defaultFragment != null) {
             transaction.hide(defaultFragment);
         }
+        if (musicFragment != null) {
+            transaction.hide(musicFragment);
+        }
     }
 
         @Override
@@ -250,6 +267,8 @@ public class FmainActivity extends AppCompatActivity implements ViewAnimator.Vie
             case ArticleFragment.BOOK:
                 return replaceFragment(screenShotable, position,name);
             case ArticleFragment.PAINT:
+                return replaceFragment(screenShotable, position,name);
+            case ArticleFragment.CASE:
                 return replaceFragment(screenShotable, position,name);
             default:
                 return replaceFragment(screenShotable, position,name);
@@ -273,4 +292,6 @@ public class FmainActivity extends AppCompatActivity implements ViewAnimator.Vie
     public void addViewToContainer(View view) {
         linearLayout.addView(view);
     }
+
+
 }

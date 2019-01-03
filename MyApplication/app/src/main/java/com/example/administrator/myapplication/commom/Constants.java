@@ -33,6 +33,9 @@ public class Constants {
     //页面
     public static String BROWERURL = "http://www.minidou.top:8080/#/taskmain";
 
+    public static String MUSICRURL = "http://www.minidou.top:8080/#/music";
+
+
 
 
 

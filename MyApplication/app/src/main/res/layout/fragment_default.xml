@@ -2,11 +2,10 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/container_default"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:paddingTop="50dp"
-    tools:context=".DefaultFragment"
-    android:theme="@style/QMUI.QQFaceView">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:theme="@style/QMUI.QQFaceView"
+    tools:context=".DefaultFragment">
 
     <!-- TODO: Update blank fragment layout -->
     <ImageView
@@ -28,10 +27,12 @@
             android:focusable="true"
             android:focusableInTouchMode="true"
             android:orientation="vertical">
+
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="1">
+
                 <EditText
                     android:id="@+id/speechTextView"
                     android:layout_width="match_parent"
@@ -41,11 +42,13 @@
                     android:ems="10"
                     android:hint="说点什么。。。"
                     android:inputType="textMultiLine"
+                    android:paddingTop="45dp"
                     android:textColor="#ffffff" />
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="117dp"
                 android:gravity="center"
                 android:orientation="vertical"
                 android:padding="15dp">

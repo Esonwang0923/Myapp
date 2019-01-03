@@ -37,8 +37,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.alibaba.fastjson.JSON;
 import com.example.administrator.myapplication.commom.Constants;
 import com.example.administrator.myapplication.dao.User;
+import com.google.gson.JsonObject;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -136,10 +138,12 @@ public class LoginActivity extends Activity {
                         ServiceUtil serviceUtil = new ServiceUtil();
                         String result = serviceUtil.getServiceInfoPost(Constants.UserByCountAndPassword, jsonObj.toString());
                         if (result.length() > 1) {
+                            com.alibaba.fastjson.JSONObject jsonObject = (com.alibaba.fastjson.JSONObject) JSON.parse(result);
+                            String userId = String.valueOf(jsonObject.get("id"));
                             Intent i = new Intent(LoginActivity.this, FmainActivity.class);
                             Bundle bundle = new Bundle();
                             //传递name参数为tinyphp
-                            bundle.putString("userId", idvalue);
+                            bundle.putString("userId", userId);
                             i.putExtras(bundle);
                             startActivity(i);
                         } else {

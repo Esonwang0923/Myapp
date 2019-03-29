@@ -35,7 +35,7 @@
                 android:singleLine="true"
                 android:text="Large Text"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textColor="#ffffff"
+                android:textColor="#454545"
                 android:textSize="18sp" />
 
             <TextView
@@ -43,7 +43,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="4dp"
-                android:textColor="#ffffff"
+                android:textColor="#454545"
                 android:textSize="12sp"
                 android:text="TextView" />
         </LinearLayout>

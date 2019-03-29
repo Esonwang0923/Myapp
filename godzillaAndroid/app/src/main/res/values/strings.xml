@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">godzillaAndroid</string>
+    <string name="bootstrapbuttongroup">BootstrapButtonGroup</string>
+    <string name="BootstrapButton1">login</string>
+    <string name="BootstrapButton2">reset</string>
+
+</resources>

@@ -124,10 +124,7 @@ public class DetailFragment extends Fragment implements ScreenShotable, OnScroll
 
         addNote = (Button) rootView.findViewById(R.id.btn_editnote);
         export = (Button) rootView.findViewById(R.id.btn_export);
-//        mImageView = (ImageView) rootView.findViewById(R.id.image_detailcontent);
-//        mImageView.setClickable(true);
-//        mImageView.setFocusable(true);
-//        mImageView.setImageResource(res);
+
         mContext = getContext();
         addNote.setOnClickListener(new View.OnClickListener() {
             @Override

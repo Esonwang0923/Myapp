@@ -3,7 +3,7 @@ package com.example.administrator.myapplication.commom;
 public class Constants {
 
     //public static String ip ="127.0.0.1";
-    public static String ip ="47.105.154.137";
+    public static String ip ="www.minidou.top";
     public static String port ="8080";
     public static String ArticleTitleList ="http://"+ip+":"+port+"/article/getArticleTitleList";
     public static String ArticleById ="http://"+ip+":"+port+"/article/getArticle/";

@@ -3,84 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".MainActivity"
-    tools:layout_editor_absoluteY="25dp">
+    android:layout_height="fill_parent"
+    android:layout_gravity="center_vertical"
+    tools:context=".MainActivity">
 
-    <LinearLayout
-        android:id="@+id/linearLayout"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:gravity="center"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintEnd_toStartOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <com.beardedhen.androidbootstrap.BootstrapCircleThumbnail
-            android:layout_width="wrap_content"
-            android:layout_height="277dp"
-            android:layout_margin="50dp"
-            android:src="@drawable/main"
-            app:bootstrapBrand="danger"
-            app:bootstrapSize="md"
-            app:hasBorder="true" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:orientation="vertical">
-
-            <com.beardedhen.androidbootstrap.BootstrapEditText
-                android:id="@+id/logintext"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="50dp"
-                android:layout_marginRight="50dp"
-                app:bootstrapBrand="info"
-                app:bootstrapSize="md" />
-
-            <com.beardedhen.androidbootstrap.BootstrapEditText
-                android:id="@+id/passwordtext"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="50dp"
-                android:layout_marginRight="50dp"
-                android:layout_marginTop="10dp"
-                app:bootstrapBrand="info"
-                app:bootstrapSize="md" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:layout_gravity="center"
-            android:baselineAligned="false"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:padding="20dp">
-
-            <com.beardedhen.androidbootstrap.BootstrapButton
-                android:id="@+id/login"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_marginLeft="20dp"
-                android:text="@string/BootstrapButton1" />
-
-            <com.beardedhen.androidbootstrap.BootstrapButton
-                android:id="@+id/reset"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_marginRight="20dp"
-                android:text="@string/BootstrapButton2" />
-
-        </LinearLayout>
-
-    </LinearLayout>
-
+    <WebView
+        android:id="@+id/webview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 </android.support.constraint.ConstraintLayout>

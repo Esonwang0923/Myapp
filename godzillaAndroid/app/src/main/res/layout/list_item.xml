@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginBottom="10dp"
+    android:layout_marginTop="10dp"
+    android:paddingBottom="2dp"
+    android:paddingTop="2dp">
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TableRow
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/fruit_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/main"
+                android:visibility="gone" />
+
+            <com.beardedhen.androidbootstrap.BootstrapLabel
+                android:id="@+id/fruit_name"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="left"
+                android:text="Bootstrap LabelBootstrap LabelBootstrap LabelBootstrap LabelBootstrap Label"
+                android:typeface="sans"
+                app:bootstrapBrand="warning"
+                app:bootstrapHeading="h5"
+                app:buttonMode="regular"
+                app:roundedCorners="false" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="right">
+
+            <TextView
+                android:id="@+id/fruit_date"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="2019" />
+        </TableRow>
+    </TableLayout>
+
+</LinearLayout>

@@ -1,7 +1,14 @@
 <resources>
-    <string name="app_name">godzillaAndroid</string>
+    <string name="app_name">ijob</string>
     <string name="bootstrapbuttongroup">BootstrapButtonGroup</string>
     <string name="BootstrapButton1">login</string>
     <string name="BootstrapButton2">reset</string>
+    <string name="title_activity_main_menu">MainMenuActivity</string>
+    <string name="title_home">Notea</string>
+    <string name="title_dashboard">Notel</string>
+    <string name="title_notifications">Notifications</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">add</string>
 
 </resources>
